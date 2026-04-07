@@ -1,0 +1,31 @@
+ORG_CD,ENG_DIVISION,KOR_DIVISION,ENG_DEPARTMENT,KOR_DEPARTMENT,Team,KOR_TEAM,Role
+ORG001,Home Entertainment Division,HE사업본부,TV Business Operations Department,TV사업운영센터,TV Product Management Team,TV 제품 관리 팀,관리 및 마케팅 전략 수립을 통해 TV 제품의 전체 라이프사이클을 관리합니다.
+ORG002,Home Entertainment Division,HE사업본부,TV Business Operations Department,TV사업운영센터,TV Marketing Team,TV 마케팅 팀,"TV 제품의 시장 진입 전략을 수립하고, 광고 및 프로모션 활동을 기획합니다."
+ORG003,Home Entertainment Division,HE사업본부,TV Business Operations Department,TV사업운영센터,TV Customer Support Team,TV 고객 지원 팀,TV 고객 지원 서비스 제공 및 고객 만족도를 높이기 위한 해결책을 제공합니다.
+ORG004,Home Entertainment Division,HE사업본부,webOS Software Development Department,webOS SW개발그룹,webOS Core Development Team,webOS 핵심 개발 팀,webOS 플랫폼의 핵심 기능 개발 및 유지보수를 담당합니다.
+ORG005,Home Entertainment Division,HE사업본부,webOS Software Development Department,webOS SW개발그룹,webOS User Interface Team,webOS 사용자 인터페이스 팀,webOS의 사용자 인터페이스 디자인 및 개선을 담당합니다.
+ORG006,Home Entertainment Division,HE사업본부,webOS Software Development Department,webOS SW개발그룹,webOS Quality Assurance Team,webOS 품질 보증 팀,webOS 소프트웨어의 품질 검증 및 테스트를 수행합니다.
+ORG007,Vehicle Solutions Division,VS사업본부,Global Customer Strategy Department,글로벌고객전략담당,Global Sales Strategy Team,글로벌 판매 전략 팀,"글로벌 판매 전략을 수립하고, 주요 시장에서의 판매 목표를 설정합니다."
+ORG008,Vehicle Solutions Division,VS사업본부,Global Customer Strategy Department,글로벌고객전략담당,Key Account Management Team,주요 고객 관리 팀,"주요 고객과의 관계를 관리하고, 맞춤형 솔루션을 제공합니다."
+ORG009,Vehicle Solutions Division,VS사업본부,Global Customer Strategy Department,글로벌고객전략담당,Customer Insights Team,고객 통찰 팀,"고객 데이터를 분석하여 인사이트를 도출하고, 이를 기반으로 제품 및 서비스 개선안을 제안합니다."
+ORG010,Vehicle Solutions Division,VS사업본부,VS Asia Sales/PM Department,VS아시아영업/PM담당,Asia Regional Sales Team,아시아 지역 판매 팀,"아시아 지역에서의 판매 활동을 관리하고, 시장 진입 전략을 수립합니다."
+ORG011,Vehicle Solutions Division,VS사업본부,VS Asia Sales/PM Department,VS아시아영업/PM담당,Project Management Team,프로젝트 관리 팀,"프로젝트 계획 수립 및 실행, 리소스 관리 및 일정 관리를 담당합니다."
+ORG012,Vehicle Solutions Division,VS사업본부,VS Asia Sales/PM Department,VS아시아영업/PM담당,Technical Sales Support Team,기술 영업 지원 팀,"기술적 지원을 제공하여 고객의 요구사항을 해결하고, 제품의 기술적 장점을 설명합니다."
+ORG013,Home Appliance and Air Solution Division,HA사업본부,Kitchen Solutions Department,키친솔루션사업부,Kitchen Appliance Development Team,주방 가전 개발 팀,주방 가전 제품의 개발 및 설계를 담당합니다.
+ORG014,Home Appliance and Air Solution Division,HA사업본부,Kitchen Solutions Department,키친솔루션사업부,Kitchen Product Marketing Team,주방 제품 마케팅 팀,주방 제품의 마케팅 전략 수립 및 실행을 담당합니다.
+ORG015,Home Appliance and Air Solution Division,HA사업본부,Kitchen Solutions Department,키친솔루션사업부,Kitchen Customer Service Team,주방 고객 서비스 팀,주방 가전 제품에 대한 고객 지원 및 서비스 제공을 담당합니다.
+ORG016,Business Solutions Division,BS사업본부,B2B India Business Department,B2B인도사업담당,India B2B Sales Team,인도 B2B 판매 팀,"인도 지역 B2B 판매 활동을 관리하고, 고객 맞춤형 솔루션을 제공합니다."
+ORG017,Business Solutions Division,BS사업본부,B2B India Business Department,B2B인도사업담당,India Market Analysis Team,인도 시장 분석 팀,인도 시장에 대한 분석을 통해 시장 전략을 수립합니다.
+ORG018,Business Solutions Division,BS사업본부,B2B India Business Department,B2B인도사업담당,India Customer Support Team,인도 고객 지원 팀,인도 지역 고객에 대한 지원 및 서비스를 제공합니다.
+ORG019,Business Solutions Division,BS사업본부,North America Innovation Center,북미이노베이션센터,Innovation Research Team,혁신 연구 팀,신기술 연구 및 혁신적인 제품 개발을 주도합니다.
+ORG020,Business Solutions Division,BS사업본부,North America Innovation Center,북미이노베이션센터,New Business Development Team,신사업 개발 팀,"새로운 비즈니스 기회를 발굴하고, 사업화를 추진합니다."
+ORG021,Business Solutions Division,BS사업본부,North America Innovation Center,북미이노베이션센터,North America Sales Team,북미 판매 팀,북미 지역 판매 전략 수립 및 실행을 담당합니다.
+ORG022,Production Engineering Research Institute,생산기술원,Production Technology Development Team,생산기술개발팀,Production Process Improvement Team,생산 공정 개선 팀,생산 공정의 효율성을 개선하고 최적화하는 작업을 수행합니다.
+ORG023,Production Engineering Research Institute,생산기술원,Production Technology Development Team,생산기술개발팀,Advanced Manufacturing Team,첨단 제조 팀,첨단 제조 기술 개발 및 생산성 향상 작업을 수행합니다.
+ORG024,Production Engineering Research Institute,생산기술원,Production Technology Development Team,생산기술개발팀,Production Quality Control Team,생산 품질 관리 팀,"생산 품질을 관리하고, 품질 문제를 해결합니다."
+ORG025,Human Resources,HR,Chief Human Resources Officer Department,최고인사책임자(CHO) 부서,Talent Acquisition Team,인재 채용 팀,"인재 채용 전략 수립 및 실행, 채용 프로세스 관리."
+ORG026,Human Resources,HR,Chief Human Resources Officer Department,최고인사책임자(CHO) 부서,Employee Development Team,직원 개발 팀,직원 교육 및 개발 프로그램 기획 및 실행.
+ORG027,Human Resources,HR,Chief Human Resources Officer Department,최고인사책임자(CHO) 부서,Compensation and Benefits Team,보상 및 복리후생 팀,직원 보상 및 복리후생 제도 관리.
+ORG028,Home Entertainment Division,HE사업본부,Washing Machine Operations Department,세탁기운영센터,Parts Development Team,부품개발팀,세탁기 부품의 개발 및 개선을 담당합니다.
+ORG029,Home Entertainment Division,HE사업본부,Washing Machine Operations Department,세탁기운영센터,Analysis Team,분석팀,세탁기 성능 및 사용자 로그 데이터를 분석하고 보고서를 작성합니다.
+ORG030,Home Entertainment Division,HE사업본부,Washing Machine Operations Department,세탁기운영센터,Information Management Team,정보관리팀,"세탁기 관련 정보의 수집, 저장, 관리 및 배포를 담당합니다."

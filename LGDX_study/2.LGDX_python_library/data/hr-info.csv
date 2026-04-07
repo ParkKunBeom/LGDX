@@ -1,0 +1,201 @@
+EID,ENAME,GENDER,ORG_CD,POS_CD,AGE,SERVICE_YEAR,EDU_LEVEL,PERFORMANCE_SCORE,SALARY,LAST_PROMO_DT,TRAINING_HOURS,SKILLS,ACTIVE_STATE,HIRE_DATE,RETIRE_DATE,RETIRE_REASON,REHIRE_YN,NATION,ROUNDING_DEDUCTION
+E00206,시이오,M,,P001,49,25,박사 학위,4.5,10200,2024-03-01,240,"Marketing, Salesforce",Y,1999-03-01,,,,KOREA,Y
+E00181,나사장,F,,P002,49,24,박사 학위,4.6,9500,2024-03-01,236,"Project Management, Marketing",Y,2000-03-01,,,,KOREA,Y
+E00164,난부사장,M,,P003,48,22,박사 학위,4.6,9100,2024-03-01,240,"Salesforce, Data Analysis, Java",Y,2002-03-01,,,,KOREA,Y
+E00190,판라다,F,ORG007,P004,47,18,박사 학위,3.51,8500,2024-03-01,96,"Java, Data Analysis, Salesforce",Y,2006-03-01,,,,KOREA,Y
+E00209,누훈봉,M,ORG023,P004,47,19,박사 학위,3.38,8600,2023-03-01,66,"Java, Salesforce",Y,2005-03-01,,,,KOREA,Y
+E00242,규모사,M,ORG027,P004,47,18,학사 학위,2.22,8300,2024-03-01,0,"Java, Salesforce, Python",Y,2006-03-01,,,,KOREA,Y
+E00298,포난서,F,ORG021,P004,47,19,석사 학위,3.63,8500,2023-03-01,47,Data Analysis,Y,2005-03-01,,,,KOREA,Y
+E00487,고명초,F,ORG014,P004,47,20,석사 학위,1.81,8600,2022-03-01,49,"Marketing, Salesforce, Project Management",Y,2004-03-01,,,,Japan,Y
+E00169,제언로,M,ORG004,P004,48,20,학사 학위,3.9,8500,2022-03-01,32,"Salesforce, Data Analysis, Python",Y,2004-03-01,,,,KOREA,Y
+E00218,영할휘,M,ORG003,P004,48,20,학사 학위,3.22,8500,2022-03-01,86,"Data Analysis, Salesforce",Y,2004-03-01,,,,KOREA,Y
+E00294,중우방,F,ORG021,P004,48,19,박사 학위,2.56,8600,2023-03-01,12,"Python, Salesforce, Java",Y,2005-03-01,,,,KOREA,Y
+E00326,부현망,F,ORG024,P004,48,20,고등학교 졸업,4.93,8500,2022-03-01,81,Python,Y,2004-03-01,,,,USA,Y
+E00346,루신디,F,ORG011,P004,48,19,석사 학위,1.25,8500,2023-03-01,83,Python,Y,2005-03-01,,,,USA,Y
+E00411,구류길,M,ORG004,P004,48,18,박사 학위,4.87,8500,2024-03-01,37,"Data Analysis, Java, Python",Y,2006-03-01,,,,USA,Y
+E00474,규아래,M,ORG016,P004,48,18,학사 학위,2.19,8300,2024-03-01,44,Python,Y,2006-03-01,,,,India,Y
+E00167,명묵말,M,ORG013,P005,42,12,석사 학위,3.88,7300,2024-03-01,46,Salesforce,Y,2012-03-01,,,,KOREA,Y
+E00207,초디소,M,ORG030,P005,41,11,석사 학위,4.38,7200,2023-03-01,17,"Java, Project Management",N,2011-03-01,2022-02-28,이직,N,KOREA,Y
+E00210,봉묵정,M,ORG006,P005,41,14,박사 학위,2.65,7600,2022-03-01,46,"Salesforce, Marketing, Data Analysis",Y,2010-03-01,,,,KOREA,Y
+E00239,헌란처,M,ORG004,P005,41,11,고등학교 졸업,1.21,7100,2024-03-01,79,"Salesforce, Python",N,2012-03-01,2023-02-28,개인 사유,N,KOREA,Y
+E00258,처록신,M,ORG016,P005,40,13,박사 학위,1.97,7500,2023-03-01,12,"Salesforce, Data Analysis, Project Management",Y,2011-03-01,,,,KOREA,Y
+E00260,녹덕익,M,ORG002,P005,40,14,석사 학위,2.71,7500,2022-03-01,62,Salesforce,Y,2010-03-01,,,,KOREA,Y
+E00278,망설온,M,ORG029,P005,40,12,학사 학위,4.65,7200,2024-03-01,97,Project Management,Y,2012-03-01,,,,KOREA,Y
+E00323,묵단언,F,ORG022,P005,40,11,석사 학위,2.95,7200,2023-03-01,79,Data Analysis,N,2011-03-01,2023-02-28,개인 사유,Y,Japan,Y
+E00366,설탁무,M,ORG016,P005,40,14,학사 학위,3.14,7400,2022-03-01,69,"Data Analysis, Salesforce",Y,2010-03-01,,,,USA,Y
+E00394,우전회,F,ORG025,P005,40,12,학사 학위,1.62,7200,2024-03-01,0,Project Management,N,2012-03-01,2024-02-29,건강 문제,N,India,Y
+E00483,탁기헌,F,ORG004,P005,41,13,고등학교 졸업,2.57,7300,2023-08-27,3,"Salesforce, Java",Y,2011-03-01,,,,Japan,Y
+E00170,윤무탁,M,ORG011,P005,42,14,학사 학위,3.37,7400,2022-03-01,43,Salesforce,Y,2010-03-01,,,,KOREA,Y
+E00174,탐선반,M,ORG023,P005,42,12,학사 학위,2.99,7200,2024-03-01,97,Project Management,N,2012-03-01,2024-02-29,건강 문제,Y,KOREA,Y
+E00219,해신백,M,ORG019,P005,41,13,학사 학위,4.33,7300,2023-03-01,16,"Project Management, Python, Data Analysis",Y,2011-03-01,,,,KOREA,Y
+E00272,비망옥,M,ORG025,P005,24,14,학사 학위,1.21,7400,2022-03-01,4,Salesforce,Y,2010-03-01,,,,KOREA,Y
+E00392,수내국,M,ORG008,P005,41,12,학사 학위,1.87,7200,2024-03-01,92,"Project Management, Python",Y,2012-03-01,,,,China,Y
+E00430,마시선,F,ORG029,P005,42,13,학사 학위,3.76,7300,2023-03-01,21,"Marketing, Python, Data Analysis",Y,2011-03-01,,,,UK,Y
+E00441,대차다,F,ORG017,P005,42,14,학사 학위,3.95,7400,2022-03-01,55,"Java, Marketing, Salesforce",Y,2010-03-01,,,,USA,Y
+E00457,인황디,F,ORG028,P005,39,12,학사 학위,4.4,7200,2024-03-01,23,"Project Management, Data Analysis, Python",Y,2012-03-01,,,,Japan,Y
+E00274,민남무,M,ORG008,P005,39,13,학사 학위,3.56,7300,2023-03-01,80,"Java, Marketing, Data Analysis",N,2011-03-01,2024-02-29,이직,N,KOREA,Y
+E00372,난봉랑,M,ORG007,P005,38,14,학사 학위,1.35,7400,2022-03-01,90,Python,Y,2010-03-01,,,,China,Y
+E00391,류담순,F,ORG014,P005,42,12,학사 학위,1.26,7200,2024-03-01,90,Data Analysis,Y,2012-03-01,,,,USA,Y
+E00199,문명회,M,ORG013,P006,35,7,학사 학위,1.11,6700,2024-03-01,48,"Data Analysis, Project Management",Y,2017-03-01,,,,KOREA,Y
+E00231,라온철,M,ORG003,P006,35,8,학사 학위,3.53,6800,2023-03-01,28,Marketing,Y,2016-03-01,,,,KOREA,Y
+E00297,엄국득,F,ORG018,P006,35,9,학사 학위,1.82,6900,2022-03-01,9,"Java, Marketing",Y,2015-03-01,,,,KOREA,Y
+E00305,옥근랑,M,ORG021,P006,35,7,학사 학위,1.69,6700,2024-03-01,86,Salesforce,Y,2017-03-01,,,,UK,Y
+E00334,무공담,M,ORG027,P006,35,8,학사 학위,4.84,6800,2023-03-01,53,Salesforce,N,2016-03-01,2024-02-29,개인 사유,N,India,Y
+E00445,속묵우,M,ORG002,P006,35,9,석사 학위,3.06,7000,2022-03-01,87,Salesforce,N,2015-03-01,2024-02-29,이직,N,UK,Y
+E00496,우봉망,F,ORG002,P006,35,7,학사 학위,1.2,6700,2024-03-01,62,"Project Management, Marketing",Y,2017-03-01,,,,USA,Y
+E00499,예수진,M,ORG021,P006,35,8,학사 학위,1.28,6800,2023-03-01,0,"Marketing, Python",Y,2016-03-01,,,,India,Y
+E00176,자웅유,F,ORG003,P006,36,9,석사 학위,1.16,7000,2022-03-01,2,Java,Y,2015-03-01,,,,KOREA,Y
+E00208,지시판,M,ORG021,P006,36,7,학사 학위,3.26,6700,2024-03-01,73,Salesforce,Y,2017-03-01,,,,KOREA,Y
+E00283,도온강,F,ORG021,P006,36,8,학사 학위,4.52,6800,2023-03-01,0,Marketing,N,2016-03-01,2024-02-29,업무환경불만족,N,KOREA,Y
+E00312,장춘란,F,ORG025,P006,36,9,학사 학위,4.95,6900,2022-03-01,60,"Data Analysis, Java",N,2015-03-01,2024-02-29,이직,N,China,Y
+E00370,매혁지,M,ORG027,P006,36,6,석사 학위,2.62,6700,2024-03-01,83,"Project Management, Salesforce, Java",N,2017-03-01,2023-02-28,개인 사유,N,UK,Y
+E00395,기숙영,F,ORG016,P006,36,8,학사 학위,2.11,6800,2023-03-01,68,"Salesforce, Data Analysis, Project Management",Y,2016-03-01,,,,UK,Y
+E00423,강회나,F,ORG007,P006,36,9,박사 학위,3.97,7100,2022-03-01,88,"Marketing, Java, Project Management",Y,2015-03-01,,,,Japan,Y
+E00493,록로민,F,ORG014,P006,36,6,학사 학위,2.6,6600,2024-03-01,35,Salesforce,N,2017-03-01,2023-02-28,이직,N,Japan,Y
+E00179,탁영표,M,ORG013,P006,37,7,학사 학위,2.35,6700,2023-03-01,30,"Salesforce, Project Management, Python",N,2016-03-01,2023-02-28,이직,N,KOREA,Y
+E00185,주인철,F,ORG007,P006,37,7,학사 학위,2.82,6700,2022-03-01,95,"Java, Python, Salesforce",N,2015-03-01,2022-02-28,이직,N,KOREA,Y
+E00193,방전분,F,ORG005,P006,37,5,학사 학위,2.17,6500,2024-03-01,38,Salesforce,N,2017-03-01,2022-02-28,이직,N,KOREA,Y
+E00221,황하예,M,ORG010,P006,37,8,박사 학위,4.96,7000,2023-03-01,80,"Python, Marketing, Project Management",Y,2016-03-01,,,,KOREA,Y
+E00243,은표원,M,ORG010,P006,37,9,고등학교 졸업,1.73,6900,2022-03-01,48,"Java, Salesforce",Y,2015-03-01,,,,KOREA,Y
+E00245,처성산,M,ORG027,P006,37,7,학사 학위,1.21,6700,2024-03-01,15,"Salesforce, Python, Marketing",N,2017-03-01,2021-02-28,개인 사유,N,KOREA,Y
+E00314,디전환,F,ORG030,P006,37,8,학사 학위,1.79,6800,2023-03-01,47,"Data Analysis, Python, Marketing",Y,2016-03-01,,,,India,Y
+E00373,설홍윤,F,ORG006,P006,37,9,석사 학위,2.13,7000,2022-03-01,82,"Project Management, Java, Marketing",Y,2015-03-01,,,,Japan,Y
+E00414,영훼등,M,ORG025,P006,38,7,학사 학위,1.69,6700,2024-03-01,8,"Salesforce, Project Management, Data Analysis",Y,2017-03-01,,,,India,Y
+E00432,표숙수,M,ORG019,P006,38,8,학사 학위,4.95,6800,2023-03-01,14,Marketing,Y,2016-03-01,,,,China,Y
+E00491,담단빈,M,ORG012,P006,38,9,학사 학위,2.69,6900,2022-03-01,10,"Java, Marketing, Salesforce",Y,2015-03-01,,,,USA,Y
+E00186,차송준,F,ORG028,P006,38,7,학사 학위,3.51,6700,2024-03-01,23,"Python, Project Management, Salesforce",Y,2017-03-01,,,,KOREA,Y
+E00268,녹판희,M,ORG017,P006,38,8,학사 학위,2.58,6800,2023-03-01,31,"Python, Data Analysis, Marketing",Y,2016-03-01,,,,KOREA,Y
+E00316,중문택,M,ORG009,P006,38,9,학사 학위,2.05,6900,2022-03-01,88,Project Management,Y,2015-03-01,,,,USA,Y
+E00462,차강훈,F,ORG018,P006,38,7,학사 학위,2.88,6700,2024-03-01,87,Salesforce,Y,2017-03-01,,,,China,Y
+E00497,리상녹,M,ORG011,P006,38,8,고등학교 졸업,2.51,6800,2023-03-01,36,"Data Analysis, Marketing",Y,2016-03-01,,,,Japan,Y
+E00255,예정서,M,ORG021,P006,39,9,학사 학위,1.99,6900,2022-03-01,93,"Marketing, Data Analysis",Y,2015-03-01,,,,KOREA,Y
+E00307,도단강,M,ORG007,P006,39,7,학사 학위,4.28,6700,2024-03-01,32,Data Analysis,Y,2017-03-01,,,,Japan,Y
+E00379,권철희,F,ORG005,P006,39,8,석사 학위,1.55,6900,2023-03-01,61,"Python, Java, Data Analysis",N,2016-03-01,2021-02-28,개인 사유,N,India,Y
+E00467,훼로훤,F,ORG004,P006,39,9,학사 학위,4.34,6900,2022-03-01,88,"Data Analysis, Java",Y,2015-03-01,,,,Japan,Y
+E00201,지몽명,M,ORG020,P007,28,1,학사 학위,2.49,5600,2024-03-01,23,"Marketing, Salesforce, Python",Y,2023-03-01,,,,KOREA,Y
+E00229,차충웅,M,ORG013,P007,28,1,학사 학위,1.47,5600,2024-03-01,23,Data Analysis,Y,2023-03-01,,,,KOREA,Y
+E00320,훤루종,F,ORG006,P007,28,1,학사 학위,3.84,5600,2024-03-01,24,"Salesforce, Java, Marketing",Y,2023-03-01,,,,UK,Y
+E00347,조리출,F,ORG005,P007,28,1,학사 학위,3.54,5600,2024-03-01,25,Java,Y,2023-03-01,,,,Japan,Y
+E00359,라권웅,F,ORG012,P007,29,2,학사 학위,4.61,5700,2023-03-01,10,"Python, Data Analysis, Java",Y,2022-03-01,,,,India,Y
+E00463,숭황예,F,ORG030,P007,29,2,학사 학위,3.23,5700,2023-03-01,10,Project Management,N,2022-03-01,2024-03-01,이직,N,Japan,Y
+E00325,권숭용,F,ORG022,P007,29,2,학사 학위,4.55,5700,2023-03-01,2,"Project Management, Python",Y,2022-03-01,,,,UK,Y
+E00350,택천산,M,ORG014,P007,29,1,학사 학위,3.15,5600,2024-03-01,53,"Python, Project Management",Y,2023-03-01,,,,UK,Y
+E00396,빈국초,F,ORG014,P007,29,1,석사 학위,2.6,5700,2024-03-01,84,"Python, Java",Y,2023-03-01,,,,USA,Y
+E00443,다득탁,F,ORG026,P007,30,1,학사 학위,1.74,5600,2024-03-01,99,Python,Y,2023-03-01,,,,Japan,Y
+E00456,헌가속,F,ORG019,P007,30,1,학사 학위,1.56,5600,2024-03-01,72,"Python, Java, Marketing",Y,2023-03-01,,,,USA,Y
+E00495,충창동,F,ORG017,P007,30,1,학사 학위,1.92,5600,2024-03-01,59,"Marketing, Project Management, Data Analysis",N,2023-03-01,2024-03-01,이직,N,UK,Y
+E00177,람준분,M,ORG023,P007,30,1,학사 학위,3.74,5600,2024-03-01,22,Python,N,2023-03-01,2024-03-01,이직,N,KOREA,Y
+E00226,득푸니,M,ORG018,P007,30,2,학사 학위,1.1,5700,2023-03-01,3,"Project Management, Java",N,2022-03-01,2024-03-01,이직,N,KOREA,Y
+E00249,예판민,M,ORG028,P007,30,2,고등학교 졸업,3.03,5700,2023-03-01,26,"Marketing, Java",Y,2022-03-01,,,,KOREA,Y
+E00301,산택문,F,ORG030,P007,29,2,학사 학위,4.7,5700,2023-03-01,84,"Salesforce, Python, Project Management",Y,2022-03-01,,,,USA,Y
+E00309,고단송,M,ORG005,P007,29,2,학사 학위,1.35,5700,2023-03-01,51,Salesforce,Y,2022-03-01,,,,India,Y
+E00339,탄배묵,M,ORG016,P007,29,2,학사 학위,2.59,5700,2023-03-01,9,"Marketing, Salesforce",Y,2022-03-01,,,,India,Y
+E00362,고휘바,M,ORG023,P007,30,2,학사 학위,3.17,5700,2023-03-01,54,"Data Analysis, Marketing, Project Management",Y,2022-03-01,,,,China,Y
+E00425,화대숙,F,ORG003,P007,30,1,학사 학위,4.59,5600,2024-03-01,53,Python,Y,2023-03-01,,,,UK,Y
+E00435,화디두,F,ORG012,P007,30,1,학사 학위,3.52,5600,2024-03-01,21,"Project Management, Marketing",Y,2023-03-01,,,,UK,Y
+E00449,처옥희,F,ORG022,P007,31,1,학사 학위,2.67,5600,2024-03-01,41,"Data Analysis, Python, Marketing",Y,2023-03-01,,,,India,Y
+E00453,예복길,M,ORG017,P007,31,1,학사 학위,4.86,5600,2024-03-01,54,Data Analysis,Y,2023-03-01,,,,Japan,Y
+E00454,진누고,M,ORG021,P007,31,1,학사 학위,4.81,5600,2024-03-01,9,"Data Analysis, Python, Marketing",Y,2023-03-01,,,,India,Y
+E00259,규창형,M,ORG007,P007,31,1,석사 학위,3.79,5700,2024-03-01,54,"Java, Project Management",Y,2023-03-01,,,,KOREA,Y
+E00289,산가라,F,ORG019,P007,29,2,학사 학위,3.8,5700,2023-03-01,12,Salesforce,Y,2022-03-01,,,,KOREA,Y
+E00331,녹처록,M,ORG004,P007,29,2,학사 학위,3.13,5700,2023-03-01,56,Salesforce,Y,2022-03-01,,,,USA,Y
+E00368,차조소,M,ORG004,P007,29,2,학사 학위,4.75,5700,2023-03-01,25,"Project Management, Marketing",Y,2022-03-01,,,,China,Y
+E00369,순길현,F,ORG024,P007,28,2,학사 학위,2.79,5700,2023-03-01,25,"Marketing, Data Analysis, Python",Y,2022-03-01,,,,India,Y
+E00381,서팔도,M,ORG001,P007,28,2,학사 학위,3.93,5700,2023-03-01,70,Salesforce,Y,2022-03-01,,,,USA,Y
+E00397,등언방,F,ORG016,P007,28,2,학사 학위,1.79,5700,2023-03-01,50,Java,Y,2022-03-01,,,,Japan,Y
+E00406,철복다,F,ORG012,P007,28,1,석사 학위,4.36,5700,2024-03-01,73,Java,Y,2023-03-01,,,,USA,Y
+E00480,혁노력,M,ORG025,P007,30,1,박사 학위,3.97,5800,2024-03-01,84,Project Management,N,2023-03-01,2024-03-01,이직,N,UK,Y
+E00168,인환숙,M,ORG025,P007,30,1,학사 학위,4.18,5600,2024-03-01,60,Data Analysis,N,2023-03-01,2024-03-01,이직,N,KOREA,Y
+E00188,양봉패,F,ORG027,P007,30,1,전문대 학위,1.53,5600,2024-03-01,63,"Data Analysis, Java",N,2023-03-01,2024-03-01,이직,N,KOREA,Y
+E00198,성해규,M,ORG023,P007,30,1,고등학교 졸업,1.9,5600,2024-03-01,87,"Data Analysis, Python",N,2023-03-01,2024-03-01,이직,N,KOREA,Y
+E00200,안랑묵,M,ORG029,P007,31,1,학사 학위,3.24,5600,2024-03-01,32,"Java, Marketing, Python",N,2023-03-01,2024-03-01,개인 사유,N,KOREA,Y
+E00234,망처문,M,ORG006,P007,31,1,학사 학위,1.63,5600,2023-03-01,5,"Marketing, Python, Salesforce",N,2022-03-01,2023-03-01,업무적응어려워함,N,KOREA,Y
+E00253,순니충,M,ORG017,P007,31,1,학사 학위,1.08,5600,2023-03-01,80,"Salesforce, Marketing",N,2022-03-01,2023-03-01,업무적응어려워함,N,KOREA,Y
+E00273,란우함,M,ORG008,P007,31,1,학사 학위,1.18,5600,2023-03-01,22,"Java, Data Analysis",N,2022-03-01,2023-03-01,개인 사유,N,KOREA,Y
+E00412,동훼택,M,ORG016,P007,32,1,학사 학위,1.8,5600,2023-03-01,48,Salesforce,N,2022-03-01,2023-03-01,이직,N,China,Y
+E00357,인치형,M,ORG013,P007,32,1,학사 학위,4.84,5600,2023-03-01,14,"Project Management, Salesforce",N,2022-03-01,2023-03-01,이직,N,Japan,Y
+E00380,병전고,F,ORG009,P007,31,1,학사 학위,2.36,5600,2023-03-01,2,"Java, Data Analysis, Python",N,2022-03-01,2023-03-01,개인 사유,N,UK,Y
+E00472,방부인,F,ORG004,P007,31,1,학사 학위,4.44,5600,2024-03-01,95,"Marketing, Project Management",N,2023-03-01,2024-03-01,건강 문제,N,China,Y
+E00494,탄배매,F,ORG030,P007,30,1,학사 학위,3.67,5600,2024-03-01,49,"Salesforce, Java, Marketing",N,2023-03-01,2024-03-01,건강 문제,N,India,Y
+E00203,희상유,M,ORG011,P007,30,1,학사 학위,3.19,5600,2024-03-01,43,Project Management,N,2023-03-01,2024-03-01,이직,N,KOREA,Y
+E00321,반함훼,M,ORG013,P007,30,1,석사 학위,1.07,5700,2024-03-01,55,"Marketing, Python, Java",N,2023-03-01,2024-03-01,이직,N,USA,Y
+E00338,권언차,F,ORG017,P007,29,2,학사 학위,4.8,5700,2023-03-01,68,"Python, Project Management",N,2022-03-01,2024-03-01,이직,N,China,Y
+E00354,화호할,M,ORG021,P007,29,2,학사 학위,3.35,5700,2023-03-01,40,"Project Management, Salesforce",N,2022-03-01,2024-03-01,이직,N,India,Y
+E00427,을흥언,F,ORG023,P007,29,2,학사 학위,4.56,5700,2023-03-01,33,"Salesforce, Marketing, Python",N,2022-03-01,2024-03-01,이직,N,Japan,Y
+E00465,혁묵복,M,ORG009,P007,29,1,학사 학위,4.94,5600,2024-03-01,47,"Salesforce, Java",N,2023-03-01,2024-03-01,이직,N,UK,Y
+E00481,개중말,M,ORG022,P007,30,1,학사 학위,4.55,5600,2024-03-01,100,"Data Analysis, Project Management, Java",N,2023-03-01,2024-03-01,건강 문제,Y,USA,Y
+E00490,시소표,F,ORG004,P007,30,1,학사 학위,2.39,5600,2024-03-01,23,"Salesforce, Data Analysis, Marketing",N,2023-03-01,2024-03-01,이직,N,UK,Y
+E00308,룡단구,M,ORG026,P007,28,1,학사 학위,3.29,5600,2023-03-01,73,"Python, Salesforce",N,2022-03-01,2023-03-01,개인 사유,Y,China,Y
+E00165,내감반,M,ORG006,P008,24,0,학사 학위,0,5000,2024-03-01,4,"Python, Data Analysis",Y,2024-03-01,,,,KOREA,Y
+E00171,표화선,F,ORG015,P008,24,0,학사 학위,0,5000,2024-03-01,4,"Java, Data Analysis, Salesforce",Y,2024-03-01,,,,KOREA,Y
+E00235,대해래,M,ORG030,P008,24,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Java, Project Management",Y,2024-03-01,,,,KOREA,Y
+E00282,문차택,F,ORG008,P008,24,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Java, Data Analysis",Y,2024-03-01,,,,KOREA,Y
+E00337,번함중,M,ORG021,P008,24,0,학사 학위,0,5000,2024-03-01,4,Python,Y,2024-03-01,,,,Japan,Y
+E00342,나노전,F,ORG001,P008,24,0,학사 학위,0,5000,2024-03-01,4,Salesforce,Y,2024-03-01,,,,China,Y
+E00345,매랑복,M,ORG006,P008,24,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Salesforce",Y,2024-03-01,,,,UK,Y
+E00434,마룡훼,M,ORG018,P008,24,0,학사 학위,0,5000,2024-03-01,4,Python,Y,2024-03-01,,,,India,Y
+E00187,익우팽,F,ORG004,P008,25,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Salesforce, Data Analysis",Y,2024-03-01,,,,KOREA,Y
+E00204,처온주,M,ORG015,P008,25,0,학사 학위,0,5000,2024-03-01,4,"Project Management, Salesforce",Y,2024-03-01,,,,KOREA,Y
+E00233,문인매,M,ORG023,P008,25,0,학사 학위,0,5000,2024-03-01,4,Salesforce,Y,2024-03-01,,,,KOREA,Y
+E00267,가현우,M,ORG025,P008,25,0,학사 학위,0,5000,2024-03-01,4,Data Analysis,Y,2024-03-01,,,,KOREA,Y
+E00276,화바봉,M,ORG024,P008,25,0,학사 학위,0,5000,2024-03-01,4,"Salesforce, Project Management, Marketing",Y,2024-03-01,,,,KOREA,Y
+E00318,마해태,M,ORG027,P008,25,0,학사 학위,0,5000,2024-03-01,4,"Java, Data Analysis, Project Management",Y,2024-03-01,,,,China,Y
+E00479,감우푸,F,ORG015,P008,25,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Project Management, Marketing",Y,2024-03-01,,,,India,Y
+E00173,휴룡로,M,ORG023,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Project Management, Marketing, Java",Y,2024-03-01,,,,KOREA,Y
+E00182,장내영,F,ORG026,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Python, Data Analysis, Project Management",Y,2024-03-01,,,,KOREA,Y
+E00197,홍민두,M,ORG019,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Project Management",Y,2024-03-01,,,,KOREA,Y
+E00212,환국준,M,ORG017,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Python, Data Analysis",Y,2024-03-01,,,,KOREA,Y
+E00216,리마복,M,ORG004,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Python, Salesforce",Y,2024-03-01,,,,KOREA,Y
+E00240,어녹로,M,ORG010,P008,26,0,학사 학위,0,5000,2024-03-01,4,Salesforce,Y,2024-03-01,,,,KOREA,Y
+E00279,호시할,M,ORG023,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Salesforce, Project Management",Y,2024-03-01,,,,KOREA,Y
+E00356,익상예,F,ORG030,P008,26,0,학사 학위,0,5000,2024-03-01,4,Salesforce,Y,2024-03-01,,,,USA,Y
+E00387,현룡훤,M,ORG002,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Java",Y,2024-03-01,,,,Japan,N
+E00436,중상당,M,ORG005,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Java, Python, Project Management",Y,2024-03-01,,,,USA,N
+E00442,래팔웅,F,ORG026,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Project Management",Y,2024-03-01,,,,China,N
+E00455,철을배,M,ORG005,P008,26,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Marketing",Y,2024-03-01,,,,UK,N
+E00485,차디모,F,ORG025,P008,26,0,학사 학위,0,5000,2024-03-01,4,Project Management,Y,2024-03-01,,,,UK,N
+E00220,홍설온,M,ORG001,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Java, Project Management",Y,2024-03-01,,,,KOREA,N
+E00223,리엄은,M,ORG018,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Python, Java, Project Management",Y,2024-03-01,,,,KOREA,N
+E00228,묵안림,M,ORG014,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Python, Project Management, Salesforce",Y,2024-03-01,,,,KOREA,N
+E00237,하개복,M,ORG008,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Marketing, Java",Y,2024-03-01,,,,KOREA,N
+E00238,미지숭,M,ORG009,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Salesforce, Python",Y,2024-03-01,,,,KOREA,N
+E00269,두순혁,M,ORG005,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Salesforce, Data Analysis",Y,2024-03-01,,,,KOREA,N
+E00277,당순윤,M,ORG019,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Marketing",Y,2024-03-01,,,,KOREA,N
+E00288,길이현,F,ORG024,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Python, Java",Y,2024-03-01,,,,KOREA,N
+E00317,규산용,M,ORG030,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Python, Salesforce",Y,2024-03-01,,,,Japan,N
+E00374,표수복,F,ORG016,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Marketing, Data Analysis",Y,2024-03-01,,,,India,N
+E00413,당루판,F,ORG030,P008,27,0,학사 학위,0,5000,2024-03-01,4,Data Analysis,Y,2024-03-01,,,,Japan,N
+E00486,백훤매,F,ORG001,P008,27,0,학사 학위,0,5000,2024-03-01,4,"Project Management, Data Analysis",Y,2024-03-01,,,,USA,N
+E00163,득치패,M,ORG013,P008,28,0,학사 학위,0,5000,2024-03-01,4,"Project Management, Salesforce, Java",Y,2024-03-01,,,,KOREA,N
+E00254,은치병,M,ORG019,P008,28,0,학사 학위,0,5000,2024-03-01,4,Marketing,Y,2024-03-01,,,,KOREA,N
+E00358,룡가식,M,ORG018,P008,28,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Python",Y,2024-03-01,,,,China,N
+E00424,선유성,M,ORG020,P008,28,0,석사 학위,0,5100,2024-03-01,4,"Project Management, Java, Marketing",Y,2024-03-01,,,,India,N
+E00263,사단지,M,ORG029,P008,29,0,학사 학위,0,5000,2024-03-01,4,Data Analysis,Y,2024-03-01,,,,KOREA,N
+E00287,민희팔,F,ORG019,P008,29,0,학사 학위,0,5000,2024-03-01,4,"Project Management, Java",Y,2024-03-01,,,,KOREA,N
+E00341,장권만,F,ORG023,P008,29,0,학사 학위,0,5000,2024-03-01,4,Project Management,Y,2024-03-01,,,,USA,N
+E00349,명어누,F,ORG011,P008,29,0,학사 학위,0,5000,2024-03-01,4,Data Analysis,Y,2024-03-01,,,,India,N
+E00367,달니대,F,ORG001,P008,29,0,학사 학위,0,5000,2024-03-01,4,"Salesforce, Project Management",N,2024-03-01,2024-05-01,이직,N,KOREA,N
+E00450,혁번상,M,ORG021,P008,29,0,학사 학위,0,5000,2024-03-01,4,Salesforce,N,2024-03-01,2024-05-01,이직,N,KOREA,N
+E00460,춘란시,M,ORG023,P008,29,0,학사 학위,0,5000,2024-03-01,4,"Data Analysis, Python",N,2024-03-01,2024-05-01,이직,N,KOREA,N
+E00468,다덕출,F,ORG028,P008,29,0,학사 학위,0,5000,2024-03-01,4,"Java, Project Management, Salesforce",Y,2024-03-01,,,,KOREA,N
+E00469,리모루,M,ORG014,P008,29,0,학사 학위,0,5000,2024-03-01,4,Project Management,Y,2024-03-01,,,,India,N
+E00471,문예성,M,ORG013,P008,29,0,학사 학위,0,5000,2024-03-01,4,"Project Management, Marketing, Java",Y,2024-03-01,,,,USA,N
+E00484,개장영,F,ORG007,P008,29,0,학사 학위,0,5000,2024-03-01,4,Data Analysis,Y,2024-03-01,,,,India,N
+E00183,용조담,F,ORG023,P009,22,0,학사 학위,0,4500,,4,"Python, Java, Salesforce",Y,2024-03-01,,,,KOREA,N
+E00192,감옥신,F,ORG017,P009,22,0,학사 학위,0,4500,,4,"Project Management, Python, Salesforce",N,2024-03-01,2024-02-28,계약만료,N,KOREA,N
+E00275,복판백,M,ORG017,P009,22,0,학사 학위,0,4500,,4,"Marketing, Salesforce",N,2024-03-01,2024-02-28,계약만료,N,KOREA,N
+E00281,빈태봉,F,ORG021,P009,22,0,고등학교 졸업,0,4500,,4,Java,N,2024-03-01,2024-02-28,계약만료,N,KOREA,N
+E00300,랑화구,F,ORG001,P009,22,0,학사 학위,0,4500,,4,Marketing,Y,2024-03-01,,,,KOREA,N
+E00303,팽봉신,M,ORG030,P009,22,0,학사 학위,0,4500,,4,"Java, Python",Y,2024-03-01,,,,KOREA,N
+E00315,탐말당,F,ORG019,P009,22,0,고등학교 졸업,0,4500,,4,"Project Management, Java, Salesforce",Y,2024-03-01,,,,KOREA,N
+E00329,패조가,M,ORG005,P009,22,0,전문대 학위,0,4500,,4,Salesforce,Y,2024-03-01,,,,KOREA,N
+E00364,사디길,M,ORG027,P009,22,0,고등학교 졸업,0,4500,,4,Java,Y,2024-03-01,,,,KOREA,N
+E00382,망팽단,F,ORG026,P009,22,0,학사 학위,0,4500,,4,Python,Y,2024-09-01,,,,KOREA,N
+E00189,초옥덕,F,ORG020,P009,23,0,학사 학위,0,4500,,4,Salesforce,Y,2024-09-01,,,,KOREA,N
+E00248,말만양,M,ORG017,P009,23,0,학사 학위,0,4500,,4,"Project Management, Salesforce, Java",Y,2024-09-01,,,,KOREA,N
+E00250,비식백,M,ORG019,P009,23,0,학사 학위,0,4500,,4,"Project Management, Python",Y,2024-09-01,,,,KOREA,N
+E00322,부탐회,F,ORG014,P009,23,0,학사 학위,0,4500,,4,Java,Y,2024-09-01,,,,KOREA,N
+E00389,초두반,F,ORG012,P009,23,0,학사 학위,0,4500,,4,"Salesforce, Java",Y,2024-09-01,,,,KOREA,N
+E00438,권개득,M,ORG024,P009,23,0,학사 학위,0,4500,,4,Python,Y,2024-09-01,,,,KOREA,N
+E00304,탐출조,M,ORG009,P009,24,0,학사 학위,0,4500,,4,Salesforce,Y,2024-09-01,,,,KOREA,N
+E00428,을충나,F,ORG003,P009,24,0,학사 학위,0,4500,,4,"Data Analysis, Python, Marketing",Y,2024-09-01,,,,KOREA,N
