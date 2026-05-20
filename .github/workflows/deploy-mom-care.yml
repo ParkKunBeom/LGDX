@@ -1,0 +1,41 @@
+name: Deploy Mom Care App
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "DX_프로젝트/mom-care-app/public/**"
+      - ".github/workflows/deploy-mom-care.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload app
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "DX_프로젝트/mom-care-app/public"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
