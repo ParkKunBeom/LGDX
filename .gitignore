@@ -1,0 +1,46 @@
+# Python/runtime artifacts
+.python_packages/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.pyo
+
+# Local virtual environments
+.venv/
+venv/
+env/
+
+# Local editor/runtime settings
+.vscode/settings.json
+DX_프로젝트/.vscode/settings.json
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Generated crawler/raw collection outputs
+DX_프로젝트/naverblog/*_naverblog/
+DX_프로젝트/navercafe/*_navercafe/
+DX_프로젝트/navercafe/_naver_cafe_chrome_profile/
+DX_프로젝트/naverjisik/*_naverjisik/
+DX_프로젝트/analysis/pregnant_full_body/
+DX_프로젝트/analysis/pregnant_diary_stress_lda/
+DX_프로젝트/analysis/*.csv
+DX_프로젝트/analysis/*.txt
+DX_프로젝트/analysis/*.png
+DX_프로젝트/mom-care-app/backend-data/
+outputs/
+
+# Large/private source datasets
+DX_프로젝트/data/
+DX_프로젝트/diary_emotion_ai/data/source/raw/
+
+# Keep diary emotion distribution artifacts trackable
+!DX_프로젝트/diary_emotion_ai/data/processed/
+!DX_프로젝트/diary_emotion_ai/data/processed/*.csv
+!DX_프로젝트/diary_emotion_ai/data/processed/*.json
+!DX_프로젝트/diary_emotion_ai/models/
+!DX_프로젝트/diary_emotion_ai/models/*.json
+!DX_프로젝트/diary_emotion_ai/reports/
+!DX_프로젝트/diary_emotion_ai/reports/*.json

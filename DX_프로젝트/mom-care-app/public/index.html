@@ -22,7 +22,7 @@
           <button class="nav-item" data-page="guardian">보호자 모드</button>
           <button class="nav-item" data-page="diary">다이어리</button>
           <button class="nav-item" data-page="trust">신뢰 정보</button>
-          <button class="nav-item" data-page="plan">기능 기획</button>
+          <button class="nav-item" data-page="plan">백엔드 기능</button>
         </nav>
 
         <section class="subscription">
@@ -39,9 +39,12 @@
             <p class="eyebrow">임산부와 보호자가 함께 쓰는 케어 앱</p>
             <h1 id="pageTitle">임산부 모드</h1>
           </div>
-          <div class="mode-switch" role="group" aria-label="사용자 모드">
-            <button class="mode-button active" data-page="mom">임산부</button>
-            <button class="mode-button" data-page="guardian">보호자</button>
+          <div class="top-actions">
+            <span id="backendStatus" class="status offline">파일 실행 모드</span>
+            <div class="mode-switch" role="group" aria-label="사용자 모드">
+              <button class="mode-button active" data-page="mom">임산부</button>
+              <button class="mode-button" data-page="guardian">보호자</button>
+            </div>
           </div>
         </header>
 
@@ -56,7 +59,7 @@
             <article class="panel">
               <div class="panel-heading">
                 <div>
-                  <p class="eyebrow">오늘 상태 입력</p>
+                  <p class="eyebrow">POST /api/assessments</p>
                   <h2>불편사항 / 스트레스 평가</h2>
                 </div>
                 <span id="riskBadge" class="badge calm">안정</span>
@@ -92,7 +95,7 @@
             </article>
 
             <article class="panel result-panel">
-              <p class="eyebrow">개인화 추천</p>
+              <p class="eyebrow">백엔드 추천 결과</p>
               <h2 id="careTitle">24주차 수면 안정 루틴</h2>
               <div id="careResult" class="care-result"></div>
             </article>
@@ -117,13 +120,13 @@
         <section class="page" id="guardian">
           <div class="grid two">
             <article class="panel">
-              <p class="eyebrow">보호자 대시보드</p>
-              <h2>오늘 함께 챙길 일</h2>
+              <p class="eyebrow">GET /api/guardian/tasks</p>
+              <h2>보호자 체크리스트</h2>
               <ul class="task-list" id="guardianTasks"></ul>
             </article>
             <article class="panel">
-              <p class="eyebrow">공유 알림</p>
-              <h2>보호자에게 필요한 정보만</h2>
+              <p class="eyebrow">보호자 알림 정책</p>
+              <h2>필요한 정보만 공유</h2>
               <div class="timeline">
                 <p><strong>오전</strong> 실내 온도 24도 유지, 물 섭취 리마인드</p>
                 <p><strong>오후</strong> 병원 예약 확인, 무거운 짐 대신 들기</p>
@@ -136,7 +139,7 @@
         <section class="page" id="diary">
           <div class="grid two">
             <article class="panel">
-              <p class="eyebrow">맘 다이어리</p>
+              <p class="eyebrow">POST /api/diaries</p>
               <h2>오늘 기록</h2>
               <label>
                 기분
@@ -154,8 +157,8 @@
               <button class="primary" id="saveDiaryButton">일지 저장</button>
             </article>
             <article class="panel">
-              <p class="eyebrow">커뮤니티형 일지</p>
-              <h2>공감 기록</h2>
+              <p class="eyebrow">GET /api/diaries</p>
+              <h2>공유 다이어리</h2>
               <div id="diaryList" class="diary-list"></div>
             </article>
           </div>
@@ -163,34 +166,27 @@
 
         <section class="page" id="trust">
           <div class="panel">
-            <p class="eyebrow">허위 정보 방지</p>
-            <h2>추천 정보 검증 기준</h2>
-            <div class="trust-grid">
-              <div>
-                <strong>출처 우선순위</strong>
-                <p>질병관리청, 보건복지부, 대한산부인과학회, WHO 같은 공신력 있는 기관 정보를 우선합니다.</p>
-              </div>
-              <div>
-                <strong>AI 답변 원칙</strong>
-                <p>진단 대신 생활 관리 제안을 제공하고, 위험 증상은 병원 상담으로 연결합니다.</p>
-              </div>
-              <div>
-                <strong>API 연동 후보</strong>
-                <p>식품영양 DB, 공공보건 API, 병원 예약 API, LG ThinQ 가전 제어 API를 모듈별로 연결합니다.</p>
-              </div>
-            </div>
+            <p class="eyebrow">GET /api/trust/sources</p>
+            <h2>신뢰 정보 추천 기준</h2>
+            <div id="sourceList" class="trust-grid"></div>
+            <h2 class="section-title">AI 답변 원칙</h2>
+            <ol id="answerRules" class="roadmap"></ol>
           </div>
         </section>
 
         <section class="page" id="plan">
           <div class="panel">
-            <p class="eyebrow">MVP 기능 구체화</p>
-            <h2>개발 우선순위</h2>
+            <p class="eyebrow">Backend MVP</p>
+            <h2>기능별 API 구체화</h2>
             <ol class="roadmap">
-              <li><strong>1차</strong> 임신 주차, 증상, 스트레스 입력 기반 케어 루틴 추천</li>
-              <li><strong>2차</strong> 보호자 공유 다이어리와 체크리스트</li>
-              <li><strong>3차</strong> 신뢰 출처 기반 AI 답변과 정보 출처 표시</li>
-              <li><strong>4차</strong> LG ThinQ 가전 제어, 광고/구독 모델, 커뮤니티 신고 기능</li>
+              <li><strong>임산부 평가</strong> POST /api/assessments - 주차, 증상, 스트레스, 상황 입력 후 위험도와 케어 루틴 반환</li>
+              <li><strong>AI 추천</strong> GET /api/recommendations - 주차와 증상 기준 음식, 행동, 정신케어 추천</li>
+              <li><strong>가전 제어</strong> POST /api/appliances/control - ThinQ 연동 전까지 제어 요청 로그 저장</li>
+              <li><strong>보호자 모드</strong> GET /api/guardian/tasks - 보호자 체크리스트 제공</li>
+              <li><strong>다이어리</strong> GET/POST /api/diaries - 산모 일지 저장과 보호자 공유</li>
+              <li><strong>커뮤니티</strong> GET/POST /api/community/posts - 공감 일지와 신고 누적 검토 상태</li>
+              <li><strong>신뢰 정보</strong> GET /api/trust/sources - 공신력 출처와 AI 답변 원칙 제공</li>
+              <li><strong>구독</strong> POST /api/subscriptions - 광고 제거 구독 상태 저장</li>
             </ol>
           </div>
         </section>

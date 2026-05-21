@@ -6,10 +6,18 @@ if (-not $project) {
   throw "DX project folder was not found."
 }
 
-$app = Join-Path $project.FullName 'mom-care-app\public\index.html'
+$appDir = Join-Path $project.FullName 'mom-care-app'
+$server = Join-Path $appDir 'server.mjs'
 
-if (-not (Test-Path -LiteralPath $app)) {
-  throw "Mom Care app index.html was not found: $app"
+if (-not (Test-Path -LiteralPath $server)) {
+  throw "Mom Care backend server was not found: $server"
 }
 
-Start-Process -FilePath $app
+try {
+  Invoke-WebRequest -Uri 'http://localhost:5173/api/health' -UseBasicParsing -TimeoutSec 1 | Out-Null
+} catch {
+  Start-Process powershell -ArgumentList "-NoExit", "-Command", "Set-Location '$appDir'; node server.mjs"
+  Start-Sleep -Seconds 2
+}
+
+Start-Process 'http://localhost:5173'

@@ -1,0 +1,31 @@
+국내자료 출처 정리
+
+1. 국내 온라인·모바일 소비 흐름
+- 통계청/KDI 경제정보센터, 2024년 12월 및 연간 온라인쇼핑동향
+- https://eiec.kdi.re.kr/policy/materialView.do?num=262891
+- 발표 활용: 국내 온라인쇼핑과 모바일쇼핑 거래액 증가, 모바일 중심 소비 환경 설명
+
+2. 아동·유아용품 모바일쇼핑 비중
+- 통계청, 2024년 5월 온라인쇼핑동향
+- https://sri.kostat.go.kr/boardDownload.es?bid=241&list_no=431567&seq=1
+- 발표 활용: 아동·유아용품 모바일쇼핑 비중 82.7% 근거
+
+3. 임신·출산 관리의 모바일화
+- 한국사회보장정보원, 아이마중 소개
+- https://ssis.or.kr/lay1/S1T2017C2020/contents.do
+- 발표 활용: 임산부 수첩, 정기 진찰, 임신 중 검사, 아기 수첩 등 모바일 기록·관리 흐름 설명
+
+4. 출생아 수, 합계출산율, 평균 출산연령
+- 통계청, 2024년 출생 통계
+- https://www.kostat.go.kr/board.es?act=view&bid=204&list_no=438237&mid=a10301020300&ref_bid=&tag=
+- 발표 활용: 2024년 출생아 수 23.8만 명, 전년 대비 3.6% 증가, 합계출산율 0.75명, 모의 평균 출산연령 33.7세
+
+5. 출산연령 상승과 건강관리 필요성
+- 질병관리청 국가건강정보포털, 조산
+- https://health.kdca.go.kr/healthinfo/biz/health/gnrlzHealthInfo/gnrlzHealthInfo/gnrlzHealthInfoView.do?cntnts_sn=6583
+- 발표 활용: 출산 연령 증가가 조산율 증가 요인 중 하나이며, 고령 산모는 조산 위험이 높다는 설명
+
+6. 임산부 심리·정서 지원 필요성
+- 저출산고령사회위원회, 난임·임산부 심리지원 확대 전국 확산 추진
+- https://go.seoul.co.kr/news/prnewsView.php?id=366852
+- 발표 활용: 2024년 전체 상담센터 상담실적 44,351건, 임신부 상담 12,176건, 임신·출산 과정의 심리적 어려움 설명

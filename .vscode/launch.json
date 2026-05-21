@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Open ThinQ Mom Care",
+      "name": "Run Mom Care Backend",
       "type": "node-terminal",
       "request": "launch",
-      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}\\open-mom-care.ps1\""
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File \"${workspaceFolder}\\DX_프로젝트\\mom-care-app\\start-server.ps1\""
     }
   ]
 }

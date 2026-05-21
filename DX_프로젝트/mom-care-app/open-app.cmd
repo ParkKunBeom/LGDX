@@ -1,2 +1,2 @@
 @echo off
-start "" "%~dp0public\index.html"
+powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0open-app.ps1"
