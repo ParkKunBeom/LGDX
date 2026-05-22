@@ -49,6 +49,26 @@ AD_PATTERNS = [
     "이벤트", "프로모션",
 ]
 
+EXTRA_AD_PATTERNS = [
+    "브라질리언", "임산부왁싱", "임산부 왁싱", "왁싱샵", "왁싱 샵", "슈가링",
+    "제모", "레이저제모", "레이저 제모", "시술가격", "시술 가격", "가격문의",
+    "가격 문의", "비용문의", "비용 문의", "예약가능", "예약 가능", "예약필수",
+    "예약 필수", "네이버 예약", "카카오채널", "카카오 채널", "톡톡상담",
+    "톡톡 상담", "방문후기", "방문 후기", "관리샵", "피부관리", "산전마사지",
+    "산후마사지", "마사지샵", "클리닉", "피부과", "병원추천", "병원 추천",
+]
+
+PROMOTION_TERMS = [
+    "가격", "비용", "예약", "문의", "상담", "위치", "주소", "할인", "이벤트",
+    "후기", "추천", "업체", "샵", "시술", "관리", "원장", "센터", "병원",
+    "클리닉", "피부과", "링크", "구매", "혜택", "쿠폰", "할인가", "무료",
+]
+
+SENSITIVE_PROMO_TERMS = [
+    "브라질리언", "왁싱", "제모", "슈가링", "마사지", "피부관리", "산전마사지",
+    "산후마사지", "클리닉", "피부과",
+]
+
 STOPWORDS = {
     "그리고", "그래서", "그러면", "그런데", "하지만", "정말", "진짜", "너무", "아주",
     "많이", "조금", "계속", "오늘", "내일", "어제", "이번", "저번", "제가", "저는",
@@ -355,8 +375,20 @@ def clean_for_analysis(content):
 
 
 def looks_like_ad(content):
-    compact = content.replace(" ", "")
-    return any(pattern.replace(" ", "") in compact for pattern in AD_PATTERNS)
+    compact = re.sub(r"\s+", " ", content)
+    compact_no_space = re.sub(r"\s+", "", content)
+
+    for pattern in AD_PATTERNS + EXTRA_AD_PATTERNS:
+        if pattern.replace(" ", "") in compact_no_space:
+            return True
+
+    promotional_score = sum(compact.count(term) for term in PROMOTION_TERMS)
+    promotional_score += len(re.findall(r"문의|예약|상담|링크|할인|이벤트|체험|제공", compact))
+
+    sensitive_score = sum(term.replace(" ", "") in compact_no_space for term in SENSITIVE_PROMO_TERMS)
+    if sensitive_score and promotional_score >= 2:
+        return True
+    return promotional_score >= 10 and len(compact) < 5000
 
 
 def tokenize(text):

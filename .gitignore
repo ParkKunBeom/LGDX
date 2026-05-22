@@ -18,6 +18,7 @@ DX_프로젝트/.vscode/settings.json
 .DS_Store
 Thumbs.db
 desktop.ini
+~$*
 
 # Generated crawler/raw collection outputs
 DX_프로젝트/naverblog/*_naverblog/

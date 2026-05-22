@@ -143,6 +143,26 @@ AD_PATTERNS = [
     "대가를", "경제적 대가", "광고입니다",
 ]
 
+EXTRA_AD_PATTERNS = [
+    "브라질리언", "임산부왁싱", "임산부 왁싱", "왁싱샵", "왁싱 샵", "슈가링",
+    "제모", "레이저제모", "레이저 제모", "시술가격", "시술 가격", "가격문의",
+    "가격 문의", "비용문의", "비용 문의", "예약가능", "예약 가능", "예약필수",
+    "예약 필수", "네이버 예약", "카카오채널", "카카오 채널", "톡톡상담",
+    "톡톡 상담", "방문후기", "방문 후기", "관리샵", "피부관리", "산전마사지",
+    "산후마사지", "마사지샵", "클리닉", "피부과", "병원추천", "병원 추천",
+]
+
+PROMOTION_TERMS = [
+    "가격", "비용", "예약", "문의", "상담", "위치", "주소", "할인", "이벤트",
+    "후기", "추천", "업체", "샵", "시술", "관리", "원장", "센터", "병원",
+    "클리닉", "피부과", "링크", "구매", "혜택", "쿠폰", "할인가", "무료",
+]
+
+SENSITIVE_PROMO_TERMS = [
+    "브라질리언", "왁싱", "제모", "슈가링", "마사지", "피부관리", "산전마사지",
+    "산후마사지", "클리닉", "피부과",
+]
+
 STOPWORDS = {
     "오늘", "정도", "진짜", "너무", "그냥", "이제", "하루", "이번", "저는", "제가",
     "우리", "때문", "때문에", "생각", "느낌", "블로그", "포스팅", "사진", "댓글",
@@ -534,13 +554,22 @@ def content_fingerprint(text):
 
 def is_ad(content):
     compact = re.sub(r"\s+", " ", content)
+    compact_no_space = re.sub(r"\s+", "", content)
     for pattern in AD_PATTERNS:
         if pattern in compact:
+            return True, pattern
+    for pattern in EXTRA_AD_PATTERNS:
+        if pattern.replace(" ", "") in compact_no_space:
             return True, pattern
 
     promotional_score = 0
     promotional_score += len(re.findall(r"문의|예약|상담|링크|할인|이벤트|체험|제공", compact))
     promotional_score += len(re.findall(r"센터|업체|브랜드|제품|구매|가격|비용", compact))
+    promotional_score += sum(compact.count(term) for term in PROMOTION_TERMS)
+
+    sensitive_score = sum(term.replace(" ", "") in compact_no_space for term in SENSITIVE_PROMO_TERMS)
+    if sensitive_score and promotional_score >= 2:
+        return True, f"민감 홍보 키워드+광고성 점수 {promotional_score}"
     if promotional_score >= 12 and len(compact) < 5000:
         return True, f"광고성 키워드 점수 {promotional_score}"
     return False, ""

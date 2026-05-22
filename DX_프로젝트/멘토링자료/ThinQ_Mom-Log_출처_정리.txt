@@ -1,0 +1,30 @@
+ThinQ Mom-Log 출처 정리
+
+1. 통계청, 2024년 혼인·이혼 통계
+- 여성 평균 초혼연령 31.6세
+- https://eiec.kdi.re.kr/policy/materialView.do?num=264503
+
+2. Seo HJ, Song JE, Lee YJ, Ahn JA. 임부의 스트레스, 우울 및 배우자와 가족의 지지가 모성 정체성에 미치는 영향. Women's Health Nursing, 2020.
+- 스트레스 β=-0.27, 배우자·가족 지지 β=0.23
+- https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART002572427
+- PDF: https://synapse.koreamed.org/upload/synapsexml/2102kjwhn/pdf/kjwhn-2020-03-17.pdf
+
+3. 뉴시스, 광주시 임신부 막달 가사돌봄서비스 인기
+- 임신 21주 이상 임신부 대상, 1인 최대 20만원 지원
+- https://www.newsis.com/view/NISX20220126_0001738816
+
+4. 이연규, 임신, 출산, 육아관련 모바일 어플리케이션의 이용실태와 컨텐츠 평가. 계명대학교.
+- 앱 사용 55.4%, 앱 평균 평가 2.73/5, 게시자 포털 61%, 의료기관 3.3%
+- https://www.dbpia.co.kr/journal/detail?nodeId=T13564964
+
+5. 한국사회보장정보원, 아이마중 소개
+- 임산부 수첩, 정기 진찰, 임신 중 검사, 아기 수첩 등 모바일 기록 기능
+- https://ssis.or.kr/lay1/S1T2017C2020/contents.do
+
+6. LG전자 뉴스룸, ThinQ UP / UP가전 2.0 관련 자료
+- ThinQ 기반 UP가전, 스마트홈 솔루션, 고객 맞춤형 업그레이드 전략
+- https://live.lge.co.kr/lg-thinq-up/
+- https://live.lge.co.kr/lg-nonhw-up-2-0/
+- https://www.lge.co.kr/support/solutions-20153048324676
+
+주의: 4페이지의 주차별 가전 케어는 팀 제안 시나리오입니다. 실제 제품별 자동 제어 가능 범위와 의료·건강 데이터 연동은 기술 검증이 필요합니다. 또한 '무풍'은 타사 브랜드 표현으로 볼 수 있어 PPT에서는 LG 톤에 맞춰 '간접바람/수면 모드'로 정리했습니다.
