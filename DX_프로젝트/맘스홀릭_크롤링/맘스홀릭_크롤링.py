@@ -18,19 +18,26 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 # ============================================================
-# 네이버 블로그 전용 크롤러 + 빈도 분석 + 워드클라우드
+# 맘스홀릭베이비 네이버 카페 전용 크롤러 + 빈도 분석 + 워드클라우드
 # 예시:
-#   python naverblog_검색키워드.py
-#   python naverblog_검색키워드.py --keyword "임산부 다이어리" --count 3000
+#   python 맘스홀릭_크롤링.py
+#   python 맘스홀릭_크롤링.py --keyword "임산부 다이어리" --count 3000
+#
+# 대상 카페:
+#   https://cafe.naver.com/imsanbu
 #
 # 저장 폴더:
-#   data/임산부_다이어리_naverblog/
+#   임산부_다이어리_맘스홀릭/
 # ============================================================
 
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR
 LOCAL_PACKAGE_DIR = BASE_DIR.parents[1] / ".python_packages"
+TARGET_CAFE_NAME = "맘스홀릭베이비"
+TARGET_CAFE_ID = "imsanbu"
+TARGET_CLUB_ID = "24081850"
+TARGET_CAFE_URL = f"https://cafe.naver.com/{TARGET_CAFE_ID}"
 
 if LOCAL_PACKAGE_DIR.exists():
     local_package_path = str(LOCAL_PACKAGE_DIR.resolve())
@@ -56,6 +63,21 @@ KIWI_ANALYZER = None
 KIWI_INSTALL_TRIED = False
 
 
+def refresh_local_package_path():
+    if not LOCAL_PACKAGE_DIR.exists():
+        return
+
+    local_package_path = str(LOCAL_PACKAGE_DIR.resolve())
+    sys.path = [path for path in sys.path if path != local_package_path]
+    sys.path.insert(0, local_package_path)
+
+    for module_name in list(sys.modules):
+        if module_name == "selenium" or module_name.startswith("selenium."):
+            del sys.modules[module_name]
+
+    importlib.invalidate_caches()
+
+
 class ProgressDisplay:
     def __init__(self, keyword, add_count, existing_count):
         self.keyword = keyword
@@ -73,7 +95,7 @@ class ProgressDisplay:
             from tkinter import ttk
 
             self.root = tk.Tk()
-            self.root.title("네이버 블로그 크롤링 진행률")
+            self.root.title("맘스홀릭베이비 크롤링 진행률")
             self.root.geometry("460x180")
             self.root.resizable(False, False)
 
@@ -207,17 +229,6 @@ def is_meaningless_token(word, stopwords):
     return False
 
 
-def refresh_local_package_path():
-    if not LOCAL_PACKAGE_DIR.exists():
-        return
-
-    local_package_path = str(LOCAL_PACKAGE_DIR.resolve())
-    sys.path = [path for path in sys.path if path != local_package_path]
-    sys.path.insert(0, local_package_path)
-    site.addsitedir(local_package_path)
-    importlib.invalidate_caches()
-
-
 def ensure_kiwi_analyzer():
     global KIWI_ANALYZER, KIWI_INSTALL_TRIED
     if KIWI_ANALYZER is not None:
@@ -269,7 +280,7 @@ def safe_print(text):
 def sanitize_folder_name(keyword):
     name = re.sub(r'[\\/:*?"<>|]+', " ", keyword).strip()
     name = re.sub(r"\s+", "_", name)
-    return f"{name}_naverblog"
+    return f"{name}_맘스홀릭"
 
 
 def get_paths(keyword):
@@ -277,12 +288,12 @@ def get_paths(keyword):
     out_dir.mkdir(parents=True, exist_ok=True)
     return {
         "dir": out_dir,
-        "raw_txt": out_dir / "naverblog_raw_pipe.txt",
-        "raw_csv": out_dir / "naverblog_raw.csv",
-        "filtered_txt": out_dir / "naverblog_filtered_pipe.txt",
-        "filtered_csv": out_dir / "naverblog_filtered.csv",
-        "frequency_csv": out_dir / "naverblog_word_frequency.csv",
-        "wordcloud_png": out_dir / "naverblog_wordcloud.png",
+        "raw_txt": out_dir / "moms_holic_raw_pipe.txt",
+        "raw_csv": out_dir / "moms_holic_raw.csv",
+        "filtered_txt": out_dir / "moms_holic_filtered_pipe.txt",
+        "filtered_csv": out_dir / "moms_holic_filtered.csv",
+        "frequency_csv": out_dir / "moms_holic_word_frequency.csv",
+        "wordcloud_png": out_dir / "moms_holic_wordcloud.png",
         "removed_csv": out_dir / "removed_duplicates_ads.csv",
         "summary_csv": out_dir / "summary.csv",
     }
@@ -320,6 +331,7 @@ def dedupe_raw_file(raw_txt):
     removed_content = 0
 
     for keyword, url, content in rows:
+        content = remove_cafe_noise(content)
         if url in seen_urls:
             removed_url += 1
             continue
@@ -369,42 +381,98 @@ def clean_pipe_field(value):
     return re.sub(r"\s+", " ", value).strip()
 
 
-def normalize_blog_url(url):
-    match = re.search(r"https?://(?:m\.)?blog\.naver\.com/([^/?#]+)/([0-9]+)", url)
-    if not match:
-        return url
-    return f"https://m.blog.naver.com/{match.group(1)}/{match.group(2)}"
+def normalize_cafe_url(url):
+    url = html.unescape(url or "").replace("\\/", "/")
+    match = re.search(r"https?://cafe\.naver\.com/([^/?#]+)/([0-9]+)", url)
+    if match:
+        return f"https://cafe.naver.com/{match.group(1)}/{match.group(2)}"
+
+    match = re.search(r"https?://cafe\.naver\.com/ArticleRead\.nhn\?[^\"']*clubid=([0-9]+)[^\"']*articleid=([0-9]+)", url)
+    if match:
+        return f"https://cafe.naver.com/ArticleRead.nhn?clubid={match.group(1)}&articleid={match.group(2)}"
+
+    match = re.search(r"https?://(?:m\.)?cafe\.naver\.com/ca-fe/(?:web/)?cafes/([0-9]+)/articles/([0-9]+)", url)
+    if match:
+        return f"https://m.cafe.naver.com/ca-fe/web/cafes/{match.group(1)}/articles/{match.group(2)}"
+
+    match = re.search(r"https?://m\.cafe\.naver\.com/([^/?#]+)/([0-9]+)", url)
+    if match:
+        return f"https://m.cafe.naver.com/{match.group(1)}/{match.group(2)}"
+
+    return ""
 
 
-def extract_search_urls(search_html):
-    urls = []
+def extract_search_items(search_html):
+    items = []
     seen = set()
+    json_pattern = re.compile(
+        r'"content":"(?P<content>.*?)","contentEllipsis".*?'
+        r'"contentHref":"(?P<href>https://(?:m\.)?cafe\.naver\.com/[^"]+)".*?'
+        r'"title":"(?P<title>.*?)","titleEllipsis".*?"titleHref":"(?P=href)"',
+        re.S,
+    )
+    for match in json_pattern.finditer(search_html):
+        url = normalize_cafe_url(clean_text(match.group("href")))
+        if not url or url in seen:
+            continue
+        seen.add(url)
+        fallback = f"{clean_text(match.group('title'))} {clean_text(match.group('content'))}".strip()
+        items.append({"url": url, "fallback": fallback})
+
+    html_pattern = re.compile(
+        r'<a href="(?P<href>https://cafe\.naver\.com/[^"]+)"[^>]*class="title_link"[^>]*>'
+        r'(?P<title>[\s\S]*?)</a>[\s\S]*?'
+        r'<a href="(?P=href)"[^>]*class="dsc_link"[^>]*>(?P<content>[\s\S]*?)</a>',
+        re.S,
+    )
+    for match in html_pattern.finditer(search_html):
+        url = normalize_cafe_url(clean_text(match.group("href")))
+        if not url or url in seen:
+            continue
+        seen.add(url)
+        fallback = f"{clean_text(match.group('title'))} {clean_text(match.group('content'))}".strip()
+        items.append({"url": url, "fallback": fallback})
+
     patterns = [
-        r'"contentHref":"(?P<href>https://blog\.naver\.com/[^"]+/[0-9]+)"',
-        r'"titleHref":"(?P<href>https://blog\.naver\.com/[^"]+/[0-9]+)"',
-        r'href="(?P<href>https://blog\.naver\.com/[^"]+/[0-9]+)"',
-        r'href="(?P<href>https://m\.blog\.naver\.com/[^"]+/[0-9]+)"',
+        r'"contentHref":"(?P<href>https://cafe\.naver\.com/[^"]+)"',
+        r'"titleHref":"(?P<href>https://cafe\.naver\.com/[^"]+)"',
+        r'"contentHref":"(?P<href>https://m\.cafe\.naver\.com/[^"]+)"',
+        r'"titleHref":"(?P<href>https://m\.cafe\.naver\.com/[^"]+)"',
+        r'href="(?P<href>https://cafe\.naver\.com/[^"]+)"',
+        r'href="(?P<href>https://m\.cafe\.naver\.com/[^"]+)"',
     ]
     for pattern in patterns:
         for match in re.finditer(pattern, search_html, re.S):
-            url = normalize_blog_url(clean_text(match.group("href")))
+            url = normalize_cafe_url(clean_text(match.group("href")))
+            if not url or "cafe.naver.com" not in url:
+                continue
             if url in seen:
                 continue
             seen.add(url)
-            urls.append(url)
-    return urls
+            items.append({"url": url, "fallback": ""})
+    return items
 
 
-def search_urls(keyword, start):
-    encoded = quote(keyword)
+def is_target_cafe_url(url):
+    normalized_url = (url or "").lower()
+    return (
+        f"cafe.naver.com/{TARGET_CAFE_ID}/" in normalized_url
+        or f"m.cafe.naver.com/{TARGET_CAFE_ID}/" in normalized_url
+        or f"clubid={TARGET_CLUB_ID}" in normalized_url
+        or f"cafes/{TARGET_CLUB_ID}/articles/" in normalized_url
+    )
+
+
+def search_items(keyword, start):
+    encoded = quote(f"cafe:cafe.naver.com/{TARGET_CAFE_ID} {keyword}")
     url = (
         "https://search.naver.com/search.naver"
-        f"?ssc=tab.blog.all&sm=tab_pge&query={encoded}&start={start}"
+        f"?ssc=tab.cafe.all&sm=tab_pge&query={encoded}&start={start}"
     )
-    return extract_search_urls(get_html(url))
+    return [item for item in extract_search_items(get_html(url)) if is_target_cafe_url(item["url"])]
 
 
-def extract_blog_body(page_html):
+def extract_cafe_body(page_html):
     start = page_html.find('class="se-main-container"')
     if start >= 0:
         div_start = page_html.rfind("<div", 0, start)
@@ -422,11 +490,15 @@ def extract_blog_body(page_html):
             else:
                 depth += 1
         block = page_html[start:end] if end > start else page_html[start:start + 90000]
-        text = clean_text(block)
+        text = remove_cafe_noise(block)
         if len(text) >= 100:
             return text
 
     patterns = [
+        r'<div[^>]+class="[^"]*ArticleContentBox[^"]*"[^>]*>([\s\S]*?)</div>\s*</div>',
+        r'<div[^>]+class="[^"]*article_viewer[^"]*"[^>]*>([\s\S]*?)</div>',
+        r'<div[^>]+id="tbody"[^>]*>([\s\S]*?)</td>',
+        r'<div[^>]+id="postContent"[^>]*>([\s\S]*?)</div>',
         r'<div[^>]+id="postViewArea"[^>]*>([\s\S]*?)</div>',
         r'<div[^>]+class="[^"]*post_ct[^"]*"[^>]*>([\s\S]*?)</div>',
         r'<div[^>]+class="[^"]*se_component_wrap[^"]*"[^>]*>([\s\S]*?)</div>',
@@ -435,14 +507,191 @@ def extract_blog_body(page_html):
     for pattern in patterns:
         for block in re.findall(pattern, page_html):
             text = clean_text(block)
+            text = remove_cafe_noise(text)
             if len(text) >= 100:
                 candidates.append(text)
     if candidates:
         return max(candidates, key=len)
 
     fragments = re.findall(r'"text":"([^"]{20,})"', page_html)
-    joined = clean_text(" ".join(fragments))
-    return joined if len(joined) >= 100 else ""
+    joined = remove_cafe_noise(" ".join(fragments))
+    if len(joined) >= 100:
+        return joined
+
+    meta_patterns = [
+        r'<meta[^>]+property="og:description"[^>]+content="([^"]+)"',
+        r'<meta[^>]+name="description"[^>]+content="([^"]+)"',
+    ]
+    for pattern in meta_patterns:
+        match = re.search(pattern, page_html)
+        if match:
+            text = remove_cafe_noise(match.group(1))
+            if len(text) >= 60:
+                return text
+    return ""
+
+
+def create_login_browser(profile_dir):
+    ensure_selenium_installed()
+    refresh_local_package_path()
+
+    try:
+        webdriver = importlib.import_module("selenium.webdriver")
+        from selenium.webdriver.chrome.options import Options
+    except ImportError as exc:
+        raise RuntimeError(
+            "로그인 브라우저를 사용하려면 selenium이 필요합니다. "
+            f"현재 스크립트는 {LOCAL_PACKAGE_DIR} 폴더의 패키지도 같이 확인합니다. "
+            "그래도 실패하면 터미널에서 아래 명령으로 설치하세요:\n"
+            f'& "{sys.executable}" -m pip install --target "{LOCAL_PACKAGE_DIR}" selenium'
+        ) from exc
+
+    options = Options()
+    options.add_argument(f"--user-data-dir={profile_dir}")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option("useAutomationExtension", False)
+    return webdriver.Chrome(options=options)
+
+
+def ensure_selenium_installed():
+    try:
+        importlib.import_module("selenium")
+        return
+    except ImportError:
+        pass
+
+    LOCAL_PACKAGE_DIR.mkdir(parents=True, exist_ok=True)
+    safe_print("\nSelenium이 없어 자동 설치를 시도합니다.")
+    command = [
+        sys.executable,
+        "-m",
+        "pip",
+        "install",
+        "--target",
+        str(LOCAL_PACKAGE_DIR),
+        "selenium",
+    ]
+    try:
+        subprocess.check_call(command)
+    except Exception as exc:
+        raise RuntimeError(
+            "Selenium 자동 설치에 실패했습니다. 터미널에서 아래 명령을 직접 실행해 주세요:\n"
+            f'"{sys.executable}" -m pip install --target "{LOCAL_PACKAGE_DIR}" selenium'
+        ) from exc
+
+    refresh_local_package_path()
+    importlib.import_module("selenium")
+
+
+def prepare_login_browser(browser_config):
+    if not browser_config or not browser_config.get("use_browser_login"):
+        return None
+
+    driver = create_login_browser(browser_config["profile_dir"])
+    driver.get("https://nid.naver.com/nidlogin.login")
+    print("\n크롬 브라우저가 열렸습니다.")
+    print("네이버에 로그인하고 맘스홀릭베이비 카페 글 열람 권한을 확인한 뒤 Enter를 누르세요.")
+    input("로그인 완료 후 Enter: ")
+    return driver
+
+
+def extract_cafe_body_browser(driver, url):
+    from selenium.common.exceptions import NoSuchElementException, TimeoutException
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support import expected_conditions as EC
+    from selenium.webdriver.support.ui import WebDriverWait
+
+    driver.get(url)
+    wait = WebDriverWait(driver, 8)
+    time.sleep(1.0)
+
+    try:
+        iframe = wait.until(EC.presence_of_element_located((By.ID, "cafe_main")))
+        driver.switch_to.frame(iframe)
+    except TimeoutException:
+        pass
+
+    selectors = [
+        ".ArticleContentBox .se-main-container",
+        ".se-main-container",
+        ".article_viewer",
+        "#tbody",
+        "#postContent",
+    ]
+    texts = []
+    for selector in selectors:
+        try:
+            element = driver.find_element(By.CSS_SELECTOR, selector)
+            text = clean_text(
+                driver.execute_script(
+                    """
+                    const clone = arguments[0].cloneNode(true);
+                    clone.querySelectorAll(
+                        'script,style,button,a,iframe,textarea,input,select,' +
+                        '.CommentBox,.comment_box,.ReplyBox,.reply_box,' +
+                        '.ArticlePaginate,.article_paginate,.NeighborArticle,' +
+                        '.prev_next,.ArticleTool,.article_writer,' +
+                        '.like_area,.u_cbox,.cafe_spi'
+                    ).forEach((el) => el.remove());
+                    return clone.innerText || clone.textContent || '';
+                    """,
+                    element,
+                )
+            )
+            text = remove_cafe_noise(text)
+            if len(text) >= 100:
+                texts.append(text)
+        except NoSuchElementException:
+            continue
+
+    driver.switch_to.default_content()
+    if not texts:
+        return ""
+
+    body = max(texts, key=len)
+    blocked_markers = [
+        "카페 회원만",
+        "멤버에게만 공개",
+        "권한이 없습니다",
+        "가입 후 이용",
+        "로그인 후 이용",
+        "접근할 수 없습니다",
+        "등급 이상의 회원",
+    ]
+    if any(marker in body for marker in blocked_markers):
+        return ""
+    return body
+
+
+def remove_cafe_noise(text):
+    text = clean_text(text)
+    cut_markers = [
+        "이전글 다음글 목록",
+        "이전글",
+        "다음글",
+        "댓글",
+        "답글쓰기",
+        "페이지 이동",
+        "전체보기",
+        "이 카페",
+        "카페앱수",
+        "작성자",
+        "스크랩",
+    ]
+    for marker in cut_markers:
+        index = text.find(marker)
+        if index == 0:
+            text = text.replace(marker, " ", 1).strip()
+            continue
+        if index >= 80:
+            text = text[:index]
+            break
+    text = re.sub(r"댓글\s*\[[0-9]+\]", " ", text)
+    text = re.sub(r"https?://cafe\.naver\.com/\S+", " ", text)
+    text = re.sub(r"\b\d{4}\.\d{2}\.\d{2}\.?\s+\d{1,2}:\d{2}\b", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
 
 
 def normalize_content(text):
@@ -534,11 +783,7 @@ def ensure_wordcloud_installed():
         safe_print(f"wordcloud 자동 설치 실패, 기존 방식으로 생성합니다: {exc}")
         return None
 
-    local_package_path = str(LOCAL_PACKAGE_DIR.resolve())
-    sys.path = [path for path in sys.path if path != local_package_path]
-    sys.path.insert(0, local_package_path)
-    site.addsitedir(local_package_path)
-    importlib.invalidate_caches()
+    refresh_local_package_path()
     return importlib.import_module("wordcloud").WordCloud
 
 
@@ -631,7 +876,7 @@ def make_wordcloud(freq, path, title):
     image.save(path)
 
 
-def crawl_raw(keyword, add_count, raw_txt):
+def crawl_raw(keyword, add_count, raw_txt, browser_config=None):
     dedupe_result = dedupe_raw_file(raw_txt)
     seen_urls = dedupe_result["seen_urls"]
     seen_fingerprints = dedupe_result["seen_fingerprints"]
@@ -647,6 +892,7 @@ def crawl_raw(keyword, add_count, raw_txt):
             f"URL {dedupe_result['removed_url']}건, 본문 {dedupe_result['removed_content']}건"
         )
 
+    driver = prepare_login_browser(browser_config)
     progress = ProgressDisplay(keyword, add_count, existing_count)
     progress.update(0, "검색 시작")
     empty_pages = 0
@@ -662,7 +908,7 @@ def crawl_raw(keyword, add_count, raw_txt):
                 start = page_idx * SEARCH_PAGE_SIZE + 1
                 progress.update(added_count, f"검색 결과 확인 중 start={start}")
                 try:
-                    urls = search_urls(keyword, start)
+                    items = search_items(keyword, start)
                 except Exception as exc:
                     safe_print(f"\n검색 실패 start={start}: {exc}")
                     empty_pages += 1
@@ -671,15 +917,19 @@ def crawl_raw(keyword, add_count, raw_txt):
                     continue
 
                 added = 0
-                for url in urls:
+                for item in items:
                     if added_count >= add_count:
                         break
+                    url = item["url"]
                     if url in seen_urls:
                         continue
 
                     try:
                         progress.update(added_count, "본문 수집 중")
-                        body = extract_blog_body(get_html(url))
+                        if driver:
+                            body = extract_cafe_body_browser(driver, url)
+                        else:
+                            body = extract_cafe_body(get_html(url))
                         if len(body) < 100:
                             raise ValueError("본문 추출 길이 부족")
                         fingerprint = content_fingerprint(body)
@@ -701,6 +951,8 @@ def crawl_raw(keyword, add_count, raw_txt):
                 time.sleep(SLEEP_SEARCH_SEC)
     finally:
         progress.close()
+        if driver:
+            driver.quit()
 
     return {
         "existing_count": existing_count,
@@ -735,6 +987,7 @@ def filter_and_analyze(keyword, paths):
             if len(parts) != 3:
                 continue
             crawling_word, url, content = parts
+            content = remove_cafe_noise(content)
 
             if url in seen_urls:
                 removed_duplicate_url += 1
@@ -766,7 +1019,7 @@ def filter_and_analyze(keyword, paths):
         writer.writerow(["word", "count"])
         writer.writerows(freq.most_common(500))
 
-    make_wordcloud(freq, paths["wordcloud_png"], f"{keyword} 네이버블로그 워드클라우드")
+    make_wordcloud(freq, paths["wordcloud_png"], f"{keyword} 맘스홀릭베이비 워드클라우드")
 
     raw_rows = sum(1 for _ in paths["raw_txt"].open(encoding="utf-8"))
     with paths["summary_csv"].open("w", encoding="utf-8-sig", newline="") as f:
@@ -790,9 +1043,14 @@ def filter_and_analyze(keyword, paths):
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="네이버 블로그 검색 키워드 크롤링 + 빈도 분석 + 워드클라우드")
+    parser = argparse.ArgumentParser(description="맘스홀릭베이비 네이버 카페 크롤링 + 빈도 분석 + 워드클라우드")
     parser.add_argument("--keyword", help="검색 키워드 예: 임산부 다이어리")
     parser.add_argument("--count", type=int, help="크롤링할 본문 수 예: 3000")
+    parser.add_argument(
+        "--browser-profile-dir",
+        default=str(DATA_DIR / "_moms_holic_chrome_profile"),
+        help="로그인 세션을 저장할 크롬 프로필 폴더",
+    )
     return parser.parse_args()
 
 
@@ -804,14 +1062,23 @@ def main():
         raise ValueError("검색 키워드가 비어 있습니다.")
     if count <= 0:
         raise ValueError("크롤링 수는 1 이상이어야 합니다.")
+    profile_dir = Path(args.browser_profile_dir)
+    profile_dir.mkdir(parents=True, exist_ok=True)
+    browser_config = {
+        "use_browser_login": True,
+        "profile_dir": str(profile_dir),
+    }
 
     paths = get_paths(keyword)
-    safe_print(f"\n네이버 블로그 전용 크롤링 시작")
+    safe_print(f"\n{TARGET_CAFE_NAME} 전용 크롤링 시작")
+    safe_print(f"- 대상 카페: {TARGET_CAFE_URL}")
     safe_print(f"- 검색 키워드: {keyword}")
     safe_print(f"- 이번 실행 추가 크롤링 수: {count}")
+    safe_print("- 검색 방식: 네이버 검색 페이지")
+    safe_print("- 본문 방식: 로그인 브라우저")
     safe_print(f"- 저장 폴더: {paths['dir']}")
 
-    crawl_result = crawl_raw(keyword, count, paths["raw_txt"])
+    crawl_result = crawl_raw(keyword, count, paths["raw_txt"], browser_config)
     export_pipe_to_csv(paths["raw_txt"], paths["raw_csv"])
     result = filter_and_analyze(keyword, paths)
 

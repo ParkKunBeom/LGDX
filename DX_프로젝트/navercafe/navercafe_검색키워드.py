@@ -7,6 +7,7 @@ import json
 import random
 import re
 import site
+import subprocess
 import sys
 import time
 from collections import Counter
@@ -51,6 +52,9 @@ HEADERS = {
         "Chrome/124.0 Safari/537.36"
     )
 }
+
+KIWI_ANALYZER = None
+KIWI_INSTALL_TRIED = False
 
 
 def refresh_local_package_path():
@@ -184,6 +188,84 @@ STOPWORDS = {
     "것이", "일차", "매일", "해서는", "같아서", "있는데", "싶은",
 }
 
+ADDITIONAL_STOPWORDS = {
+    "것은", "것을", "것도", "것과", "것에", "것으로", "것이다", "것이라고",
+    "것입니다", "것이며", "것이라", "것처럼", "것까지", "것부터", "것만",
+    "또한", "아니라", "그리고", "그러나", "하지만", "그래서", "그런데",
+    "따라서", "때문", "때문에", "덕분", "덕분에", "대한", "대해", "위한",
+    "통해", "통해서", "관련", "관련해", "관련한", "대해서", "하면서",
+    "하면서도", "한다면", "한다는", "한다고", "합니다", "했습니다", "됩니다",
+    "되었다", "되었고", "되어서", "있으며", "있어서", "있는데", "있지만",
+    "없으며", "없어서", "없는데", "없지만", "이것", "저것", "그것",
+    "이런", "저런", "그런", "어떤", "모든", "여러", "정말", "너무",
+    "조금", "아주", "매우", "제일", "가장", "다만", "물론", "역시",
+    "일단", "먼저", "나중", "이후", "이전", "현재", "요즘", "최근",
+    "경우", "정도", "부분", "내용", "사실", "느낌", "생각", "문제",
+    "이유", "방법", "확인", "사용", "가능", "필요", "추천", "후기",
+}
+
+STOPWORD_PREFIXES = ("것",)
+STOPWORD_SUFFIXES = (
+    "입니다", "합니다", "했습니다", "됩니다", "되나요", "인가요", "같아요",
+    "라서", "이라서", "어서", "해서", "하고", "하면", "하며", "하지만",
+    "는데", "은데", "인데", "다고", "라고", "이라는", "라는", "같은",
+    "부터", "까지", "에게", "에서", "으로", "으로도", "으로는", "으로서",
+)
+
+
+def is_meaningless_token(word, stopwords):
+    if word in stopwords:
+        return True
+    if any(word.startswith(prefix) for prefix in STOPWORD_PREFIXES) and len(word) <= 5:
+        return True
+    if any(word.endswith(suffix) for suffix in STOPWORD_SUFFIXES) and len(word) <= 7:
+        return True
+    return False
+
+
+def ensure_kiwi_analyzer():
+    global KIWI_ANALYZER, KIWI_INSTALL_TRIED
+    if KIWI_ANALYZER is not None:
+        return KIWI_ANALYZER
+
+    try:
+        Kiwi = importlib.import_module("kiwipiepy").Kiwi
+    except ImportError:
+        if KIWI_INSTALL_TRIED:
+            return None
+        KIWI_INSTALL_TRIED = True
+        LOCAL_PACKAGE_DIR.mkdir(parents=True, exist_ok=True)
+        safe_print("\nkiwipiepy 패키지가 없어 자동 설치를 시도합니다.")
+        command = [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--target",
+            str(LOCAL_PACKAGE_DIR),
+            "kiwipiepy",
+        ]
+        try:
+            subprocess.check_call(command)
+            refresh_local_package_path()
+            Kiwi = importlib.import_module("kiwipiepy").Kiwi
+        except Exception as exc:
+            safe_print(f"kiwipiepy 자동 설치 실패, 기존 토큰화 방식으로 분석합니다: {exc}")
+            return None
+
+    KIWI_ANALYZER = Kiwi()
+    return KIWI_ANALYZER
+
+
+def expand_keyword_stopwords(keyword):
+    stopwords = set(re.findall(r"[가-힣]{2,}", keyword or ""))
+    kiwi = ensure_kiwi_analyzer()
+    if kiwi:
+        for token in kiwi.tokenize(keyword or ""):
+            if token.tag.startswith("N") and len(token.form) >= 2:
+                stopwords.add(token.form)
+    return stopwords
+
 
 def safe_print(text):
     print(str(text).encode("cp949", errors="ignore").decode("cp949"), flush=True)
@@ -201,7 +283,9 @@ def get_paths(keyword):
     return {
         "dir": out_dir,
         "raw_txt": out_dir / "navercafe_raw_pipe.txt",
+        "raw_csv": out_dir / "navercafe_raw.csv",
         "filtered_txt": out_dir / "navercafe_filtered_pipe.txt",
+        "filtered_csv": out_dir / "navercafe_filtered.csv",
         "frequency_csv": out_dir / "navercafe_word_frequency.csv",
         "wordcloud_png": out_dir / "navercafe_wordcloud.png",
         "removed_csv": out_dir / "removed_duplicates_ads.csv",
@@ -221,6 +305,17 @@ def read_pipe_rows(path):
     return rows
 
 
+def write_rows_csv(rows, path):
+    with path.open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["keyword", "url", "content"])
+        writer.writerows(rows)
+
+
+def export_pipe_to_csv(txt_path, csv_path):
+    write_rows_csv(read_pipe_rows(txt_path), csv_path)
+
+
 def dedupe_raw_file(raw_txt):
     rows = read_pipe_rows(raw_txt)
     seen_urls = set()
@@ -230,6 +325,7 @@ def dedupe_raw_file(raw_txt):
     removed_content = 0
 
     for keyword, url, content in rows:
+        content = remove_cafe_noise(content)
         if url in seen_urls:
             removed_url += 1
             continue
@@ -411,7 +507,7 @@ def extract_cafe_body(page_html):
             else:
                 depth += 1
         block = page_html[start:end] if end > start else page_html[start:start + 90000]
-        text = clean_text(block)
+        text = remove_cafe_noise(block)
         if len(text) >= 100:
             return text
 
@@ -427,14 +523,14 @@ def extract_cafe_body(page_html):
     candidates = []
     for pattern in patterns:
         for block in re.findall(pattern, page_html):
-            text = clean_text(block)
+            text = remove_cafe_noise(block)
             if len(text) >= 100:
                 candidates.append(text)
     if candidates:
         return max(candidates, key=len)
 
     fragments = re.findall(r'"text":"([^"]{20,})"', page_html)
-    joined = clean_text(" ".join(fragments))
+    joined = remove_cafe_noise(" ".join(fragments))
     if len(joined) >= 100:
         return joined
 
@@ -445,7 +541,7 @@ def extract_cafe_body(page_html):
     for pattern in meta_patterns:
         match = re.search(pattern, page_html)
         if match:
-            text = clean_text(match.group(1))
+            text = remove_cafe_noise(match.group(1))
             if len(text) >= 60:
                 return text
     return ""
@@ -502,18 +598,33 @@ def extract_cafe_body_browser(driver, url):
         pass
 
     selectors = [
+        ".ArticleContentBox .se-main-container",
         ".se-main-container",
-        ".ArticleContentBox",
         ".article_viewer",
         "#tbody",
         "#postContent",
-        "body",
     ]
     texts = []
     for selector in selectors:
         try:
             element = driver.find_element(By.CSS_SELECTOR, selector)
-            text = clean_text(element.text)
+            text = clean_text(
+                driver.execute_script(
+                    """
+                    const clone = arguments[0].cloneNode(true);
+                    clone.querySelectorAll(
+                        'script,style,button,a,iframe,textarea,input,select,' +
+                        '.CommentBox,.comment_box,.ReplyBox,.reply_box,' +
+                        '.ArticlePaginate,.article_paginate,.NeighborArticle,' +
+                        '.prev_next,.ArticleTool,.article_writer,' +
+                        '.like_area,.u_cbox,.cafe_spi'
+                    ).forEach((el) => el.remove());
+                    return clone.innerText || clone.textContent || '';
+                    """,
+                    element,
+                )
+            )
+            text = remove_cafe_noise(text)
             if len(text) >= 100:
                 texts.append(text)
         except NoSuchElementException:
@@ -536,6 +647,36 @@ def extract_cafe_body_browser(driver, url):
     if any(marker in body for marker in blocked_markers):
         return ""
     return body
+
+
+def remove_cafe_noise(text):
+    text = clean_text(text)
+    cut_markers = [
+        "이전글 다음글 목록",
+        "이전글",
+        "다음글",
+        "댓글",
+        "답글쓰기",
+        "페이지 이동",
+        "전체보기",
+        "이 카페",
+        "카페앱수",
+        "작성자",
+        "스크랩",
+    ]
+    for marker in cut_markers:
+        index = text.find(marker)
+        if index == 0:
+            text = text.replace(marker, " ", 1).strip()
+            continue
+        if index >= 80:
+            text = text[:index]
+            break
+    text = re.sub(r"댓글\s*\[[0-9]+\]", " ", text)
+    text = re.sub(r"https?://cafe\.naver\.com/\S+", " ", text)
+    text = re.sub(r"\b\d{4}\.\d{2}\.\d{2}\.?\s+\d{1,2}:\d{2}\b", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
 
 
 def normalize_content(text):
@@ -576,9 +717,21 @@ def is_ad(content):
 
 
 def tokenize(text, extra_stopwords=None):
-    stopwords = STOPWORDS | set(extra_stopwords or [])
+    stopwords = STOPWORDS | ADDITIONAL_STOPWORDS | set(extra_stopwords or [])
+    kiwi = ensure_kiwi_analyzer()
+    if kiwi:
+        words = []
+        for token in kiwi.tokenize(text):
+            word = token.form
+            if not token.tag.startswith("N"):
+                continue
+            if len(word) < 2 or is_meaningless_token(word, stopwords):
+                continue
+            words.append(word)
+        return words
+
     words = re.findall(r"[가-힣]{2,}", text)
-    return [word for word in words if word not in stopwords and len(word) >= 2]
+    return [word for word in words if len(word) >= 2 and not is_meaningless_token(word, stopwords)]
 
 
 def get_font(size):
@@ -592,7 +745,52 @@ def get_font(size):
     return ImageFont.load_default()
 
 
+def ensure_wordcloud_installed():
+    try:
+        return importlib.import_module("wordcloud").WordCloud
+    except ImportError:
+        pass
+
+    LOCAL_PACKAGE_DIR.mkdir(parents=True, exist_ok=True)
+    safe_print("\nwordcloud 패키지가 없어 자동 설치를 시도합니다.")
+    command = [
+        sys.executable,
+        "-m",
+        "pip",
+        "install",
+        "--target",
+        str(LOCAL_PACKAGE_DIR),
+        "wordcloud",
+    ]
+    try:
+        subprocess.check_call(command)
+    except Exception as exc:
+        safe_print(f"wordcloud 자동 설치 실패, 기존 방식으로 생성합니다: {exc}")
+        return None
+
+    refresh_local_package_path()
+    return importlib.import_module("wordcloud").WordCloud
+
+
 def make_wordcloud(freq, path, title):
+    WordCloud = ensure_wordcloud_installed()
+    if WordCloud:
+        font_path = "C:/Windows/Fonts/malgunbd.ttf"
+        if not Path(font_path).exists():
+            font_path = "C:/Windows/Fonts/malgun.ttf"
+        wc = WordCloud(
+            font_path=font_path,
+            width=1700,
+            height=1050,
+            background_color="white",
+            max_words=110,
+            random_state=2027,
+            collocations=False,
+            prefer_horizontal=0.9,
+        ).generate_from_frequencies(dict(freq.most_common(110)))
+        wc.to_file(str(path))
+        return
+
     width, height = 1700, 1050
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
@@ -767,7 +965,7 @@ def filter_and_analyze(keyword, paths):
     removed_duplicate_url = 0
     removed_duplicate_content = 0
     removed_ad = 0
-    extra_stopwords = set(re.findall(r"[가-힣]{2,}", keyword))
+    extra_stopwords = expand_keyword_stopwords(keyword)
 
     with (
         paths["raw_txt"].open(encoding="utf-8") as src,
@@ -782,6 +980,7 @@ def filter_and_analyze(keyword, paths):
             if len(parts) != 3:
                 continue
             crawling_word, url, content = parts
+            content = remove_cafe_noise(content)
 
             if url in seen_urls:
                 removed_duplicate_url += 1
@@ -805,6 +1004,8 @@ def filter_and_analyze(keyword, paths):
             out.write(f"{crawling_word}||{url}||{content}\n")
             freq.update(tokenize(content, extra_stopwords))
             kept += 1
+
+    export_pipe_to_csv(paths["filtered_txt"], paths["filtered_csv"])
 
     with paths["frequency_csv"].open("w", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f)
@@ -908,6 +1109,7 @@ def main():
     safe_print(f"- 저장 폴더: {paths['dir']}")
 
     crawl_result = crawl_raw(keyword, count, paths["raw_txt"], api_config, browser_config)
+    export_pipe_to_csv(paths["raw_txt"], paths["raw_csv"])
     result = filter_and_analyze(keyword, paths)
 
     print("\n완료")
@@ -919,7 +1121,9 @@ def main():
     print(f"- 중복 본문 제거: {result['removed_duplicate_content']}")
     print(f"- 광고성 글 제거: {result['removed_ad']}")
     print(f"- 원본 TXT: {paths['raw_txt']}")
+    print(f"- 원본 CSV: {paths['raw_csv']}")
     print(f"- 정제 TXT: {paths['filtered_txt']}")
+    print(f"- 정제 CSV: {paths['filtered_csv']}")
     print(f"- 빈도 CSV: {paths['frequency_csv']}")
     print(f"- 워드클라우드: {paths['wordcloud_png']}")
 

@@ -2,8 +2,12 @@ import argparse
 import csv
 import hashlib
 import html
+import importlib
 import random
 import re
+import site
+import subprocess
+import sys
 import time
 from collections import Counter
 from pathlib import Path
@@ -26,6 +30,14 @@ from PIL import Image, ImageDraw, ImageFont
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR
+LOCAL_PACKAGE_DIR = BASE_DIR.parents[1] / ".python_packages"
+
+if LOCAL_PACKAGE_DIR.exists():
+    local_package_path = str(LOCAL_PACKAGE_DIR.resolve())
+    sys.path = [path for path in sys.path if path != local_package_path]
+    sys.path.insert(0, local_package_path)
+    site.addsitedir(local_package_path)
+    importlib.invalidate_caches()
 
 SEARCH_PAGE_SIZE = 10
 MAX_SEARCH_PAGES = 1000
@@ -42,6 +54,9 @@ HEADERS = {
     ),
     "Referer": "https://kin.naver.com/",
 }
+
+KIWI_ANALYZER = None
+KIWI_INSTALL_TRIED = False
 
 AD_PATTERNS = [
     "광고", "협찬", "제공받", "체험단", "공동구매", "구매링크", "할인코드",
@@ -80,9 +95,95 @@ STOPWORDS = {
     "하나요", "인가요", "됩니다", "되어요", "해서", "하면", "하는", "하고",
 }
 
+ADDITIONAL_STOPWORDS = {
+    "것은", "것을", "것도", "것과", "것에", "것으로", "것이다", "것이라고",
+    "것입니다", "것이며", "것이라", "것처럼", "것까지", "것부터", "것만",
+    "또한", "아니라", "그러나", "따라서", "덕분", "덕분에", "대한", "대해",
+    "위한", "통해", "통해서", "관련해", "관련한", "대해서", "하면서",
+    "하면서도", "한다면", "한다는", "한다고", "했습니다", "되었다", "되었고",
+    "되어서", "있으며", "있어서", "있는데", "있지만", "없으며", "없어서",
+    "없는데", "없지만", "이것", "저것", "그것", "이런", "저런", "그런",
+    "어떤", "모든", "여러", "매우", "제일", "가장", "다만", "물론", "역시",
+    "일단", "먼저", "나중", "이후", "이전", "현재", "요즘", "최근", "부분",
+    "사실", "느낌", "생각", "문제", "이유", "필요",
+}
+
+STOPWORD_PREFIXES = ("것",)
+STOPWORD_SUFFIXES = (
+    "입니다", "합니다", "했습니다", "됩니다", "되나요", "인가요", "같아요",
+    "라서", "이라서", "어서", "해서", "하고", "하면", "하며", "하지만",
+    "는데", "은데", "인데", "다고", "라고", "이라는", "라는", "같은",
+    "부터", "까지", "에게", "에서", "으로", "으로도", "으로는", "으로서",
+)
+
+
+def is_meaningless_token(word, stopwords):
+    if word in stopwords:
+        return True
+    if any(word.startswith(prefix) for prefix in STOPWORD_PREFIXES) and len(word) <= 5:
+        return True
+    if any(word.endswith(suffix) for suffix in STOPWORD_SUFFIXES) and len(word) <= 7:
+        return True
+    return False
+
 
 def safe_print(text=""):
     print(str(text).encode("cp949", errors="ignore").decode("cp949"), flush=True)
+
+
+def refresh_local_package_path():
+    if not LOCAL_PACKAGE_DIR.exists():
+        return
+
+    local_package_path = str(LOCAL_PACKAGE_DIR.resolve())
+    sys.path = [path for path in sys.path if path != local_package_path]
+    sys.path.insert(0, local_package_path)
+    site.addsitedir(local_package_path)
+    importlib.invalidate_caches()
+
+
+def ensure_kiwi_analyzer():
+    global KIWI_ANALYZER, KIWI_INSTALL_TRIED
+    if KIWI_ANALYZER is not None:
+        return KIWI_ANALYZER
+
+    try:
+        Kiwi = importlib.import_module("kiwipiepy").Kiwi
+    except ImportError:
+        if KIWI_INSTALL_TRIED:
+            return None
+        KIWI_INSTALL_TRIED = True
+        LOCAL_PACKAGE_DIR.mkdir(parents=True, exist_ok=True)
+        safe_print("\nkiwipiepy 패키지가 없어 자동 설치를 시도합니다.")
+        command = [
+            sys.executable,
+            "-m",
+            "pip",
+            "install",
+            "--target",
+            str(LOCAL_PACKAGE_DIR),
+            "kiwipiepy",
+        ]
+        try:
+            subprocess.check_call(command)
+            refresh_local_package_path()
+            Kiwi = importlib.import_module("kiwipiepy").Kiwi
+        except Exception as exc:
+            safe_print(f"kiwipiepy 자동 설치 실패, 기존 토큰화 방식으로 분석합니다: {exc}")
+            return None
+
+    KIWI_ANALYZER = Kiwi()
+    return KIWI_ANALYZER
+
+
+def expand_keyword_stopwords(keyword):
+    stopwords = set(re.findall(r"[가-힣]{2,}", keyword or ""))
+    kiwi = ensure_kiwi_analyzer()
+    if kiwi:
+        for token in kiwi.tokenize(keyword or ""):
+            if token.tag.startswith("N") and len(token.form) >= 2:
+                stopwords.add(token.form)
+    return stopwords
 
 
 class ProgressDisplay:
@@ -156,7 +257,9 @@ def get_paths(keyword):
     return {
         "dir": out_dir,
         "raw_txt": out_dir / f"{file_prefix}_raw_pipe.txt",
+        "raw_csv": out_dir / f"{file_prefix}_raw.csv",
         "filtered_txt": out_dir / f"{file_prefix}_filtered_pipe.txt",
+        "filtered_csv": out_dir / f"{file_prefix}_filtered.csv",
         "frequency_csv": out_dir / f"{file_prefix}_word_frequency.csv",
         "wordcloud_png": out_dir / f"{file_prefix}_wordcloud.png",
         "removed_csv": out_dir / f"{file_prefix}_removed_duplicates_ads.csv",
@@ -188,6 +291,17 @@ def write_pipe_rows(path, rows):
         for keyword, url, content in rows:
             clean_content = re.sub(r"\s+", " ", content).strip()
             f.write(f"{keyword}||{url}||{clean_content}\n")
+
+
+def write_rows_csv(rows, path):
+    with path.open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["keyword", "url", "content"])
+        writer.writerows(rows)
+
+
+def export_pipe_to_csv(txt_path, csv_path):
+    write_rows_csv(read_pipe_rows(txt_path), csv_path)
 
 
 def append_pipe_row(path, keyword, url, content):
@@ -391,13 +505,26 @@ def looks_like_ad(content):
     return promotional_score >= 10 and len(compact) < 5000
 
 
-def tokenize(text):
+def tokenize(text, extra_stopwords=None):
+    stopwords = STOPWORDS | ADDITIONAL_STOPWORDS | set(extra_stopwords or [])
     cleaned = clean_for_analysis(text)
+    kiwi = ensure_kiwi_analyzer()
+    if kiwi:
+        result = []
+        for token in kiwi.tokenize(cleaned):
+            word = token.form.lower()
+            if not token.tag.startswith("N"):
+                continue
+            if len(word) < 2 or word.isdigit() or is_meaningless_token(word, stopwords):
+                continue
+            result.append(word)
+        return result
+
     words = re.findall(r"[가-힣A-Za-z0-9]{2,}", cleaned)
     result = []
     for word in words:
         word = word.lower()
-        if word in STOPWORDS:
+        if is_meaningless_token(word, stopwords):
             continue
         if word.isdigit():
             continue
@@ -456,7 +583,49 @@ def random_text_color():
     ])
 
 
+def ensure_wordcloud_installed():
+    try:
+        return importlib.import_module("wordcloud").WordCloud
+    except ImportError:
+        pass
+
+    LOCAL_PACKAGE_DIR.mkdir(parents=True, exist_ok=True)
+    safe_print("\nwordcloud 패키지가 없어 자동 설치를 시도합니다.")
+    command = [
+        sys.executable,
+        "-m",
+        "pip",
+        "install",
+        "--target",
+        str(LOCAL_PACKAGE_DIR),
+        "wordcloud",
+    ]
+    try:
+        subprocess.check_call(command)
+        refresh_local_package_path()
+        return importlib.import_module("wordcloud").WordCloud
+    except Exception as exc:
+        safe_print(f"wordcloud 자동 설치 실패, 기존 방식으로 생성합니다: {exc}")
+        return None
+
+
 def make_wordcloud(freq, output_png):
+    WordCloud = ensure_wordcloud_installed()
+    if WordCloud:
+        font_path = find_font()
+        wc = WordCloud(
+            font_path=font_path,
+            width=1600,
+            height=1000,
+            background_color="white",
+            max_words=180,
+            random_state=42,
+            collocations=False,
+            prefer_horizontal=0.9,
+        ).generate_from_frequencies(dict(freq.most_common(180)))
+        wc.to_file(str(output_png))
+        return
+
     width, height = 1600, 1000
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
@@ -493,10 +662,11 @@ def make_wordcloud(freq, output_png):
     image.save(output_png)
 
 
-def save_analysis(paths):
+def save_analysis(paths, keyword):
     rows = read_pipe_rows(paths["raw_txt"])
     filtered, removed = filter_rows(rows)
     write_pipe_rows(paths["filtered_txt"], filtered)
+    export_pipe_to_csv(paths["filtered_txt"], paths["filtered_csv"])
 
     with paths["removed_csv"].open("w", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f)
@@ -504,8 +674,9 @@ def save_analysis(paths):
         writer.writerows(removed)
 
     freq = Counter()
+    extra_stopwords = expand_keyword_stopwords(keyword)
     for _, _, content in filtered:
-        freq.update(tokenize(content))
+        freq.update(tokenize(content, extra_stopwords))
 
     with paths["frequency_csv"].open("w", encoding="utf-8-sig", newline="") as f:
         writer = csv.writer(f)
@@ -628,7 +799,8 @@ def main():
     safe_print(f"- 저장 폴더: {paths['dir']}")
 
     crawl_result = crawl_raw(keyword, count, paths["raw_txt"])
-    raw_total, filtered_total, removed_total, freq = save_analysis(paths)
+    export_pipe_to_csv(paths["raw_txt"], paths["raw_csv"])
+    raw_total, filtered_total, removed_total, freq = save_analysis(paths, keyword)
 
     safe_print("\n완료")
     safe_print(f"- 이번 실행 추가 수집: {crawl_result['added_count']}")
@@ -636,7 +808,9 @@ def main():
     safe_print(f"- 분석 사용 데이터: {filtered_total}")
     safe_print(f"- 중복/광고/짧은본문 제외: {removed_total}")
     safe_print(f"- 원본 txt: {paths['raw_txt']}")
+    safe_print(f"- 원본 CSV: {paths['raw_csv']}")
     safe_print(f"- 필터링 txt: {paths['filtered_txt']}")
+    safe_print(f"- 필터링 CSV: {paths['filtered_csv']}")
     safe_print(f"- 빈도 CSV: {paths['frequency_csv']}")
     safe_print(f"- 워드클라우드 PNG: {paths['wordcloud_png']}")
 

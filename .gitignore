@@ -1,3 +1,23 @@
+# Generated crawler outputs and browser login profiles
+DX_프로젝트/naverblog/*_naverblog/
+DX_프로젝트/navercafe/*_navercafe/
+DX_프로젝트/naverjisik/*_naverjisik/
+DX_프로젝트/navercafe/_naver_cafe_chrome_profile/
+DX_프로젝트/맘스홀릭_크롤링/*_맘스홀릭/
+DX_프로젝트/맘스홀릭_크롤링/_moms_holic_chrome_profile/
+DX_프로젝트/맘스홀릭_크롤링/*.csv
+DX_프로젝트/맘스홀릭_크롤링/*.txt
+DX_프로젝트/맘스홀릭_크롤링/*.png
+**/_moms_holic_chrome_profile/
+**/_naver_cafe_chrome_profile/
+**/*_naverblog/
+**/*_navercafe/
+**/*_naverjisik/
+**/*_맘스홀릭/
+**/moms_holic_*.csv
+**/moms_holic_*.txt
+**/moms_holic_*.png
+
 # Python/runtime artifacts
 .python_packages/
 __pycache__/

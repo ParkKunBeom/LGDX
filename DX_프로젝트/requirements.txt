@@ -1,2 +1,4 @@
 pillow
 selenium
+wordcloud
+kiwipiepy
